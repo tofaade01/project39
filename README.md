@@ -1,70 +1,122 @@
-# Getting Started with Create React App
+# Project Name
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is built using React. This README file outlines the standard way of working, including naming conventions, folder structure, and best practices to maintain a clean and scalable codebase.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+1. [Project Structure](#project-structure)
+2. [Naming Conventions](#naming-conventions)
+3. [Component Structure](#component-structure)
+4. [State Management](#state-management)
+5. [Styling](#styling)
+6. [Testing](#testing)
+7. [Linting and Formatting](#linting-and-formatting)
+8. [Environment Variables](#environment-variables)
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The project follows a modular and feature-based folder structure. This makes the codebase easy to navigate and scale as the project grows.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+/src
+├── assets          # Static assets like images, fonts, etc.
+├── components      # Reusable UI components
+│   ├── Button      # Folder for Button component
+│   │   ├── Button.js
+│   │   ├── Button.test.js
+│   │   ├── Button.css
+│   │   └── index.js
+│   └── ...
+├── containers      # Container components (if applicable)
+├── pages           # Page components, corresponding to routes
+│   ├── Home
+│   │   ├── Home.js
+│   │   ├── Home.test.js
+│   │   ├── Home.css
+│   │   └── index.js
+│   └── ...
+├── hooks           # Custom React hooks
+├── context         # Context providers for global state management
+├── services        # API calls, utility functions
+├── App.js          # Main application component
+├── index.js        # Entry point of the application
+└── ...
+```
 
-### `npm test`
+## Naming Conventions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Files & Folders**: Use `camelCase` for filenames and folder names except for components, which should use `PascalCase`.
+- **Components**: Use `PascalCase` for component names, e.g., `UserProfile.js`.
+- **Hooks**: Use `camelCase` and prefix with `use`, e.g., `useFetchData.js`.
+- **CSS/SASS Files**: Use `kebab-case` for CSS/SASS files, e.g., `user-profile.module.css`.
 
-### `npm run build`
+## Component Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Components should be organized by feature or common usage:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Presentational Components**: Components that are purely for UI, without any business logic. Place them in the `components` directory.
+- **Container Components**: Components that connect to the state management and handle business logic. Place them in the `features` directory.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Example structure for a feature:
 
-### `npm run eject`
+```
+features/
+└── user/
+    ├── UserProfile.js
+    ├── UserList.js
+    ├── userSlice.js  # Redux slice or Zustand store
+    └── userAPI.js    # API calls related to the user feature
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## State Management
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+State should be managed globally or locally depending on the need:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Global State**: Use a state management library like Redux or Zustand. Organize the state by feature in the `store` directory.
+- **Local State**: Use React's `useState` or `useReducer` for state that is specific to a component.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Styling
 
-## Learn More
+Use a consistent styling approach across the project:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **CSS Modules**: Scoped CSS using `*.module.css` or `*.module.scss`.
+- **Styled Components**: For component-level styling using the `styled-components` library.
+- **Global Styles**: Place global styles in the `styles` directory.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Testing
 
-### Code Splitting
+Testing is essential for maintaining a reliable codebase. Use `Jest` and `React Testing Library` for unit and integration tests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Test Files**: Place test files in the same directory as the component they are testing, with the `.test.js` suffix.
+- **Test Structure**: Write separate tests for component rendering, logic, and edge cases.
 
-### Analyzing the Bundle Size
+```
+components/
+└── Button/
+    ├── Button.js
+    └── Button.test.js
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Linting and Formatting
 
-### Making a Progressive Web App
+Ensure consistent code style and formatting:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **ESLint**: Use ESLint for code linting with a standard configuration (e.g., Airbnb, Prettier).
+- **Prettier**: Use Prettier for code formatting. Configure Prettier to work with ESLint to avoid conflicts.
+- **Husky & Lint-Staged**: Set up Husky and Lint-Staged to run linters and formatters before commits.
 
-### Advanced Configuration
+## Environment Variables
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Environment variables should be stored in a `.env` file at the root of the project.
 
-### Deployment
+- **Security**: Never commit the `.env` file to the repository. Add it to `.gitignore`.
+- **Access**: Access environment variables in your code using `process.env.REACT_APP_*`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+REACT_APP_API_URL=https://api.example.com
+REACT_APP_GOOGLE_MAPS_API_KEY=your_api_key_here
+```
 
-### `npm run build` fails to minify
+## Conclusion
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Following these conventions and structures will help maintain a clean, scalable, and maintainable codebase. Adherence to these guidelines is encouraged for all contributors.
