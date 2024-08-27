@@ -1,6 +1,34 @@
-# Project Name
+# Digistar Frontend Engineering Test
 
 This project is built using React. This README file outlines the standard way of working, including naming conventions, folder structure, and best practices to maintain a clean and scalable codebase.
+
+## Running the Project
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/AzkaDzaki/digistar-fe-ceria.git
+   cd digistar-fe-ceria
+   ```
+
+2. Fetch and Checkout to the `preferences` branch:
+
+   ```sh
+   git fetch
+   git checkout `preferences`
+   ```
+
+3. Install the dependencies:
+
+   ```sh
+   npm install
+   ```
+
+4. Run the development server:
+
+   ```sh
+   npm run start
+   ```
 
 ## Table of Contents
 
