@@ -1,7 +1,9 @@
 // THIS IS FOR USING CREATEBROWSERROUTER
 import './App.css';
 import AppRoute from './config/route';
-
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 function App() {
   return <AppRoute />;
 }

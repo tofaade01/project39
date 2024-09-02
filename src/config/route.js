@@ -1,8 +1,6 @@
-import React, { Suspense, useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React, { Suspense, useState, createContext } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MENUS from './menus';
-
-// Not using lazy load
 import Home from '../pages/Home';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
@@ -11,76 +9,47 @@ import Overview from '../pages/Overview';
 import Stats from '../pages/Stats';
 import PageNotFound from '../pages/PageNotFound';
 import ProtectedRoute from '../pages/ProtectedRoute';
+import Register from '../pages/Register'; // Import Register page
+import Login from '../pages/Login'; // Import Login page
 
-// Using lazy load
+export const AuthContext = createContext();
+
 const Users = React.lazy(() => import('../pages/Users'));
 const UserDetails = React.lazy(() => import('../pages/UserDetails'));
 
 const AppRoute = () => {
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleAuth = () => {
-    setisLoggedIn(!isLoggedIn);
+    setIsLoggedIn(!isLoggedIn);
   };
 
-  const router = createBrowserRouter([
-    {
-      path: MENUS.HOME,
-      element: <Home />,
-    },
-    {
-      path: MENUS.ABOUT,
-      element: <About />,
-    },
-    {
-      path: MENUS.CONTACT,
-      element: <Contact />,
-    },
-    {
-      path: MENUS.DASHBOARD,
-      element: <Dashboard />,
-      children: [
-        {
-          path: MENUS.DASHBOARD_OVERVIEW,
-          element: <Overview />,
-        },
-        {
-          path: MENUS.DASHBOARD_STATS,
-          element: <Stats />,
-        },
-      ],
-    },
-    {
-      path: MENUS.USER,
-      element: (
-        <ProtectedRoute isAuthenticated={isLoggedIn} element={<Users />} />
-      ),
-    },
-    {
-      path: MENUS.USER_DETAILS,
-      element: (
-        <ProtectedRoute
-          isAuthenticated={isLoggedIn}
-          element={<UserDetails />}
-        />
-      ),
-    },
-    {
-      path: '*',
-      element: <PageNotFound />,
-    },
-  ]);
-
   return (
-    <>
-      <div style={{ display: 'block' }}>
-        <button onClick={handleAuth}>{isLoggedIn ? 'Logout' : 'Login'}</button>
-      </div>
-
-      <Suspense fallback={<>Loading Component</>}>
-        <RouterProvider router={router} />
+    <AuthContext.Provider value={{ isLoggedIn, handleAuth }}>
+      <Suspense fallback={<div>Loading Component...</div>}>
+        <Router>
+          <Routes>
+            <Route path={MENUS.HOME} element={<Home />} />
+            <Route path={MENUS.ABOUT} element={<About />} />
+            <Route path={MENUS.CONTACT} element={<Contact />} />
+            <Route path={MENUS.DASHBOARD} element={<Dashboard />} />
+            <Route path={MENUS.DASHBOARD_OVERVIEW} element={<Overview />} />
+            <Route path={MENUS.DASHBOARD_STATS} element={<Stats />} />
+            <Route
+              path={MENUS.USER}
+              element={<ProtectedRoute isAuthenticated={isLoggedIn} element={<Users />}></ProtectedRoute>}
+            />
+            <Route
+              path={MENUS.USER_DETAILS}
+              element={<ProtectedRoute isAuthenticated={isLoggedIn} element={<UserDetails />}></ProtectedRoute>}
+            />
+            <Route path="/register" element={<Register />} /> {/* Add Register route */}
+            <Route path="/login" element={<Login />} /> {/* Add Login route */}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
       </Suspense>
-    </>
+    </AuthContext.Provider>
   );
 };
 

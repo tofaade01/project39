@@ -2,8 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ element, isAuthenticated }) => {
-  console.log(element);
-  return isAuthenticated ? element : <Navigate to="/" />;
+  return isAuthenticated ? element : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

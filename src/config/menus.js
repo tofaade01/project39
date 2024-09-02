@@ -3,8 +3,8 @@ const MENUS = {
   ABOUT: '/about',
   CONTACT: '/contact',
   DASHBOARD: '/dashboard',
-  DASHBOARD_OVERVIEW: 'overview',
-  DASHBOARD_STATS: 'stats',
+  DASHBOARD_OVERVIEW: '/dashboard/overview',
+  DASHBOARD_STATS: '/dashboard/stats',
   USER: '/user',
   USER_DETAILS: '/user/details/:userId',
 };

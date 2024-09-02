@@ -21,7 +21,7 @@ code {
   max-width: 1200px;
   margin: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   color: #fff;
 }
@@ -30,6 +30,8 @@ code {
   display: flex;
   gap: 20px;
   list-style: none;
+  flex-direction: row;
+
 }
 
 .topnav div button {
