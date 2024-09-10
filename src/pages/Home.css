@@ -1,0 +1,87 @@
+/* Home.css */
+.home-container {
+    padding: 20px;
+  }
+  
+  .top-message {
+    background-color: #fceef1;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .top-message h1 {
+    color: #ec5677;
+  }
+  
+  .quota-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .quota-card {
+    background-color: #f7f8fa;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .quota-card h3 {
+    font-size: 16px;
+  }
+  
+  .quota-card h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .success-rate-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .success-card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f7f8fa;
+    margin-right: 10px;
+    text-align: center;
+  }
+  
+  .rate-circle {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0f7e9;
+    font-size: 18px;
+  }
+  
+  
+  .broadcast-activities {
+    margin-top: 20px;
+  }
+  
+  .broadcast-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .broadcast-table th, .broadcast-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .broadcast-table th {
+    background-color: #f7f8fa;
+  }
+  

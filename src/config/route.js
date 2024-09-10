@@ -1,9 +1,12 @@
+// eslint-disable-next-line
 import React, { Suspense, useState, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MENUS from './menus';
 import Home from '../pages/Home';
-import About from '../pages/About';
-import Contact from '../pages/Contact';
+import BlastImage from '../pages/ImageBlast';
+import TextBlast from '../pages/TextBlast';
+import VideoBlast from '../pages/VideoBlast';
+import BlastForm from '../pages/BlastForm';
 import Dashboard from '../pages/Dashboard';
 import Overview from '../pages/Overview';
 import Stats from '../pages/Stats';
@@ -24,17 +27,20 @@ const AppRoute = () => {
     setIsLoggedIn(!isLoggedIn);
   };
 
+  console.log(AuthContext.Provider)
   return (
     <AuthContext.Provider value={{ isLoggedIn, handleAuth }}>
       <Suspense fallback={<div>Loading Component...</div>}>
         <Router>
           <Routes>
             <Route path={MENUS.HOME} element={<Home />} />
-            <Route path={MENUS.ABOUT} element={<About />} />
-            <Route path={MENUS.CONTACT} element={<Contact />} />
+            <Route path={MENUS.BLASTFORM} element={<BlastForm />} />
             <Route path={MENUS.DASHBOARD} element={<Dashboard />} />
             <Route path={MENUS.DASHBOARD_OVERVIEW} element={<Overview />} />
             <Route path={MENUS.DASHBOARD_STATS} element={<Stats />} />
+            <Route path="/blast/photo" element={<BlastImage />} />
+            <Route path="/blast/text" element={<TextBlast />} />
+            <Route path="/blast/video" element={<VideoBlast />} />
             <Route
               path={MENUS.USER}
               element={<ProtectedRoute isAuthenticated={isLoggedIn} element={<Users />}></ProtectedRoute>}

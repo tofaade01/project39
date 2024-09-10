@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import Navbar from "../layouts/Navbar";
 import { AuthContext } from '../config/route';
 
 const Login = () => {
@@ -12,13 +11,13 @@ const Login = () => {
   const { isLoggedIn, handleAuth } = useContext(AuthContext);
 
   const validationSchema = Yup.object({
-    username: Yup.string().required("Username is required!"),
+    email: Yup.string().required("Email is required!"),
     password: Yup.string().required("Password is required!"),
   });
 
   const formik = useFormik({
     initialValues: {
-      username: '',
+      email: '',
       password: ''
     },
     validationSchema: validationSchema,
@@ -54,7 +53,6 @@ const Login = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <Navbar>
       <section className="vh-70 mt-5" style={{ minWidth: "500px" }}>
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -68,16 +66,17 @@ const Login = () => {
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <h1 className="mb-5">Login</h1>
               <form onSubmit={formik.handleSubmit}>
+                {/* Email input */}
                 <div className="form-outline mb-4">
-                  <label className="form-label" htmlFor="username">Username</label>
+                  <label className="form-label" htmlFor="email">Email</label>
                   <input
                     type="text"
                     id="username"
                     className="form-control form-control-lg"
-                    {...formik.getFieldProps('username')}
+                    {...formik.getFieldProps('email')}
                   />
-                  {formik.touched.username && formik.errors.username ? (
-                    <div className="error-feedback">{formik.errors.username}</div>
+                  {formik.touched.email && formik.errors.email ? (
+                    <div className="error-feedback">{formik.errors.email}</div>
                   ) : null}
                 </div>
 
@@ -101,7 +100,7 @@ const Login = () => {
                     type="submit"
                     className="btn btn-primary btn-lg btn-block"
                     style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
-                    disabled={loading}
+                    disabled={loading}  // Disable button during loading
                   >
                     {loading && <span className="spinner-border spinner-border-sm"></span>}
                     <span>Login</span>
@@ -110,8 +109,8 @@ const Login = () => {
                     Don't have an account? <a href="/register">Register here</a>
                   </p>
                 </div>
-                
-                {/* Error message */}
+
+                {/* Error or success message */}
                 <div className="form-group">
                   {message && (
                     <div className="alert alert-danger" role="alert">
@@ -124,7 +123,6 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </Navbar>
   );
 };
 

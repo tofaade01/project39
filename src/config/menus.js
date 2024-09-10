@@ -1,7 +1,9 @@
 const MENUS = {
   HOME: '/',
-  ABOUT: '/about',
-  CONTACT: '/contact',
+  IMAGEBLAST: '/blast/photo',
+  TEXTBLAST: '/blast/text',
+  VIDEOBLAST: '/blast/video',
+  BLASTFORM: '/create',
   DASHBOARD: '/dashboard',
   DASHBOARD_OVERVIEW: '/dashboard/overview',
   DASHBOARD_STATS: '/dashboard/stats',
