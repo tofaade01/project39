@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
-const schema = require('./schema');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const schema = require("./schema");
+const bcrypt = require("bcrypt");
 
-const Users = mongoose.model('User', schema.userSchema);
-const Orders = mongoose.model('Order', schema.orderSchema);
+const Users = mongoose.model("User", schema.userSchema);
+const Orders = mongoose.model("Order", schema.orderSchema);
+const Broadcast = mongoose.model("Broadcast", schema.upSchema);
 
 async function getUsers() {
     return Users.find();
@@ -13,6 +14,10 @@ async function createUser(user) {
     // encrypt user password before creating new user
     user.password = await bcrypt.hash(user.password, 10);
     return Users.create(user);
+}
+
+async function createBroadcast(broadcast) {
+    return Broadcast.create(broadcast);
 }
 
 async function updateUser(id, user) {
@@ -28,7 +33,7 @@ async function findByName(name) {
 }
 
 async function findOneByEmail(email) {
-    return Users.findOne({ email: email });
+    return Users.findOne({ email });
 }
 
 async function getOrders() {
@@ -55,10 +60,39 @@ async function findOneByOrderId(orderId) {
     return Orders.findOne({ orderId: orderId });
 }
 
+async function findOneByEmail(email) {
+    return Users.find({ email: email });
+}
+
+async function findOneByTitle(title) {
+    return Broadcast.findOne({ title });
+}
+
+async function findOneByCaption(caption) {
+    return Broadcast.findOne({ caption });
+}
+
+async function findOneByChannel(channel) {
+    return Broadcast.findOne({ channel });
+}
+
+async function findOneByTime(time) {
+    return Broadcast.findOne({ time });
+}
+
+async function findOneByDate(date) {
+    return Broadcast.findOne({ date });
+}
+
+async function findOneByTotalBroadcast(totalBroadcast) {
+    return Broadcast.findOne({ totalBroadcast });
+}
+
 
 module.exports = {
     getUsers,
     createUser,
+    createBroadcast,
     updateUser,
     deleteUser,
     findByName,
@@ -68,5 +102,12 @@ module.exports = {
     updateOrder,
     deleteOrder,
     findByStatus,
-    findOneByOrderId
-}
+    findOneByOrderId,
+    findOneByEmail,
+    findOneByTitle,
+    findOneByCaption, 
+    findOneByChannel, 
+    findOneByTime, 
+    findOneByDate, 
+    findOneByTotalBroadcast,
+};
