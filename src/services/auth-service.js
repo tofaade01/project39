@@ -31,7 +31,7 @@ class AuthService {
   // Register the user
   async register(user) {
     try {
-      const response = await axios.post(`${API_URL}users`, {
+      const response = await axios.post(`${API_URL}register`, {
         email: user.email,
         password: user.password,
       });

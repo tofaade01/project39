@@ -35,7 +35,6 @@ const Register = () => {
       try {
         await AuthService.register({
           username: values.username,
-          phone: values.phone,
           email: values.email,
           password: values.password,
         });
@@ -54,7 +53,7 @@ const Register = () => {
 
   return (
       <section className="text-center text-lg-start">
-        <div className="container pt-4">
+        <div className="container pt-4" style={{maxWidth: '1050px'}}>
           <div className="row g-0 align-items-center">
             <div className="col-lg-6 mb-5 mb-lg-0 p-0">
               <img
