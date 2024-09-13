@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
 const upSchema = new mongoose.Schema({
   title: String,
   caption: String,
-  channel: String, 
+  channel: [String], 
   date: Date,
   totalBroadcast: Number,
 })
