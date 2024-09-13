@@ -1,61 +1,83 @@
-// eslint-disable-next-line
-import React, { Suspense, useState, createContext } from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // Import useSelector for Redux
 import MENUS from './menus';
 import Home from '../pages/Home';
 import BlastImage from '../pages/ImageBlast';
 import TextBlast from '../pages/TextBlast';
 import VideoBlast from '../pages/VideoBlast';
 import BlastForm from '../pages/BlastForm';
-import Dashboard from '../pages/Dashboard';
-import Overview from '../pages/Overview';
-import Stats from '../pages/Stats';
+import History from '../pages/History';
 import PageNotFound from '../pages/PageNotFound';
 import ProtectedRoute from '../pages/ProtectedRoute';
-import Register from '../pages/Register'; // Import Register page
-import Login from '../pages/Login'; // Import Login page
-
-export const AuthContext = createContext();
+import Register from '../pages/Register'; 
+import Login from '../pages/Login';
 
 const Users = React.lazy(() => import('../pages/Users'));
 const UserDetails = React.lazy(() => import('../pages/UserDetails'));
 
 const AppRoute = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Access the authentication state from Redux
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  const handleAuth = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
-
-  console.log(AuthContext.Provider)
   return (
-    <AuthContext.Provider value={{ isLoggedIn, handleAuth }}>
-      <Suspense fallback={<div>Loading Component...</div>}>
-        <Router>
-          <Routes>
-            <Route path={MENUS.HOME} element={<Home />} />
-            <Route path={MENUS.BLASTFORM} element={<BlastForm />} />
-            <Route path={MENUS.DASHBOARD} element={<Dashboard />} />
-            <Route path={MENUS.DASHBOARD_OVERVIEW} element={<Overview />} />
-            <Route path={MENUS.DASHBOARD_STATS} element={<Stats />} />
-            <Route path="/blast/photo" element={<BlastImage />} />
-            <Route path="/blast/text" element={<TextBlast />} />
-            <Route path="/blast/video" element={<VideoBlast />} />
-            <Route
-              path={MENUS.USER}
-              element={<ProtectedRoute isAuthenticated={isLoggedIn} element={<Users />}></ProtectedRoute>}
-            />
-            <Route
-              path={MENUS.USER_DETAILS}
-              element={<ProtectedRoute isAuthenticated={isLoggedIn} element={<UserDetails />}></ProtectedRoute>}
-            />
-            <Route path="/register" element={<Register />} /> {/* Add Register route */}
-            <Route path="/login" element={<Login />} /> {/* Add Login route */}
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Router>
-      </Suspense>
-    </AuthContext.Provider>
+    <Suspense fallback={<div>Loading Component...</div>}>
+      <Router>
+        <Routes>
+          <Route
+            path={MENUS.HOME}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<Home />} />
+            }
+          />
+          <Route
+            path={MENUS.BLASTFORM}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<BlastForm />} />
+            }
+          />
+          <Route
+            path={MENUS.HISTORY}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<History />} />
+            }
+          />
+          <Route
+            path="/blast/photo"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<BlastImage />} />
+            }
+          />
+          <Route
+            path="/blast/text"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<TextBlast />} />
+            }
+          />
+          <Route
+            path="/blast/video"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<VideoBlast />} />
+            }
+          />
+          <Route
+            path={MENUS.USER}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<Users />} />
+            }
+          />
+          <Route
+            path={MENUS.USER_DETAILS}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated} element={<UserDetails />} />
+            }
+          />
+          <Route path="/register" element={<Register />} /> {/* Add Register route */}
+          <Route path="/login" element={<Login />} /> {/* Add Login route */}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Router>
+    </Suspense>
   );
 };
 

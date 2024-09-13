@@ -4,9 +4,7 @@ const MENUS = {
   TEXTBLAST: '/blast/text',
   VIDEOBLAST: '/blast/video',
   BLASTFORM: '/create',
-  DASHBOARD: '/dashboard',
-  DASHBOARD_OVERVIEW: '/dashboard/overview',
-  DASHBOARD_STATS: '/dashboard/stats',
+  HISTORY: '/history',
   USER: '/user',
   USER_DETAILS: '/user/details/:userId',
 };

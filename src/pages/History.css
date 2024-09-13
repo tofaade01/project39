@@ -1,0 +1,51 @@
+.history-page {
+    padding: 2rem;
+  }
+  
+  .header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .journey-illustration {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .table-section {
+    margin-top: 2rem;
+  }
+  
+  .broadcast-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+  
+  .broadcast-table th, 
+  .broadcast-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .broadcast-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .pagination {
+    text-align: center;
+  }
+  
+  .pagination button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #e0e0e0;
+  }
+  

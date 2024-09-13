@@ -137,6 +137,9 @@ const Register = () => {
                     <button type="submit" className="btn btn-primary btn-block mb-4" disabled={loading}>
                       {loading ? 'Registering...' : 'Sign Up'}
                     </button>
+                    <p className="small fw-bold mt-2 pt-1 mb-0">
+                    Already have an account? <a href="/login">Login here</a>
+                  </p>
                     {message && (
                       <div className={`alert ${message.includes('successful') ? 'alert-success' : 'alert-danger'}`} role="alert">
                         {message}
