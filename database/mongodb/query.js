@@ -88,6 +88,10 @@ async function findOneByTotalBroadcast(totalBroadcast) {
     return Broadcast.findOne({ totalBroadcast });
 }
 
+async function getBroadcasts() {
+    return Broadcast.find();
+}
+
 
 module.exports = {
     getUsers,
@@ -110,4 +114,5 @@ module.exports = {
     findOneByTime, 
     findOneByDate, 
     findOneByTotalBroadcast,
+    getBroadcasts,
 };

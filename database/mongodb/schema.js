@@ -18,7 +18,13 @@ const upSchema = new mongoose.Schema({
   caption: String,
   channel: [String], 
   date: Date,
+  createdDate: Date,
   totalBroadcast: Number,
+  status: {
+    type: String,
+    enum: ['Pending', 'Finish'],
+    default: 'Pending'
+  }
 })
 
 module.exports = {
