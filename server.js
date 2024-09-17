@@ -202,6 +202,7 @@ app.post('/user/create', async (req, res) => {
       caption,
       channel,
       date,
+      media,
       createdDate,
       totalBroadcast,
       status,
@@ -215,7 +216,6 @@ app.post('/user/create', async (req, res) => {
     const gmtCreatedDate = new Date(
       localCreatedDate.getTime() - offsetHours * 60 * 60 * 1000
     );
-    const broadcast = await upBlast(payload);
 
     console.log(localCreatedDate);
     const payload = {
@@ -223,11 +223,12 @@ app.post('/user/create', async (req, res) => {
       caption,
       channel,
       date,
+      media,
       createdDate: gmtCreatedDate,
       totalBroadcast,
       status: 'Pending',
-    }; // Untuk menyimpan ketiga variabel menjadi satu paket
-
+    };
+    const broadcast = await upBlast(payload);
     userQuery.createBroadcast(broadcast).then((broadcast) => {
       res
         .status(202)
@@ -239,10 +240,17 @@ app.post('/user/create', async (req, res) => {
   }
 });
 
-app.get('/user/create', (req, res) => {
-  userQuery.getBroadcasts().then((users) => {
-    res.json(users);
-  });
+app.get('/user/create', async (req, res) => {
+  try {
+    await updateBroadcastStatus();
+
+    // Fetch the broadcasts and return them
+    const broadcasts = await userQuery.getBroadcasts();
+    res.json(broadcasts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed to get broadcasts' + error });
+  }
 });
 
 app.get('/broadcasts/history', async (req, res) => {
@@ -296,7 +304,6 @@ async function upBlast(payload) {
     console.log('ISO Format:', dateTimeISO);
 
     if (payload.date >= dateTimeISO) {
-      // Membandingkan hanya tanggal, tanpa waktu
       if (payload.date < dateTimeISO) {
         throw new Error('The time cannot be less than the current time!');
       }

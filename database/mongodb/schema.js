@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: String, 
+  password: String,
 });
 
 const orderSchema = new mongoose.Schema({
@@ -16,16 +16,17 @@ const orderSchema = new mongoose.Schema({
 const upSchema = new mongoose.Schema({
   title: String,
   caption: String,
-  channel: [String], 
+  channel: [String],
   date: Date,
+  media: String,
   createdDate: Date,
   totalBroadcast: Number,
   status: {
     type: String,
     enum: ['Pending', 'Finish'],
-    default: 'Pending'
-  }
-})
+    default: 'Pending',
+  },
+});
 
 module.exports = {
   userSchema,
