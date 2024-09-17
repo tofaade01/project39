@@ -10,25 +10,30 @@ class BlastService {
       const response = await axios.post(`${API_URL}user/create`, {
         title: blastData.title,
         caption: blastData.caption,
-        channel: blastData.channel,  // array of channels
+        channel: blastData.channel,
         date: blastData.date,
+        media: blastData.media,
         time: blastData.time,
-        totalBroadcast: blastData.totalBroadcast, // Example, adjust as per backend
+        totalBroadcast: blastData.totalBroadcast,
       });
-      console.log(response)
       return response.data;
     } catch (error) {
-      throw new Error(error.response ? error.response.data.message : 'Blast creation failed');
+      throw new Error(
+        error.response ? error.response.data.message : 'Blast creation failed'
+      );
     }
   }
 
   // Retrieve all blasts (if needed, depending on your app's functionality)
   async getAllBlasts() {
     try {
-      const response = await axios.get(`${API_URL}user/blasts`);
+      const response = await axios.get(`${API_URL}user/create`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
-      throw new Error(error.response ? error.response.data.message : 'Failed to fetch blasts');
+      throw new Error(
+        error.response ? error.response.data.message : 'Failed to fetch blasts'
+      );
     }
   }
 

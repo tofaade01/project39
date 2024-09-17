@@ -11,10 +11,10 @@ class AuthService {
         email: user.email,
         password: user.password,
       });
-      console.log(response.data)
-      if (response.data.accessToken) {
-        this.setToken(response.data.accessToken);
-        this.setUser(user);
+      console.log(response.data.token)
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(user));
       }
       return response.data;
     } catch (error) {

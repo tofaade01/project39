@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../layouts/Navbar';
 import './Blastform.css';
 import BlastService from '../services/blast-service';
+import { useNavigate } from 'react-router-dom';
 function BlastForm() {
   const [title, setTitle] = useState('');
   const [caption, setCaption] = useState('');
@@ -9,7 +10,7 @@ function BlastForm() {
   const [channels, setChannels] = useState([]); // Store selected channels
   const [schedule, setSchedule] = useState('');
   const [totalBroadcast, setTotalBroadcast] = useState(1); // Example field for the total broadcast count
-
+  const navigate = useNavigate();
   // Handle checkbox changes for channels
   const handleChannelChange = (e) => {
     const { value, checked } = e.target;
@@ -18,7 +19,7 @@ function BlastForm() {
     } else {
       setChannels(channels.filter((channel) => channel !== value));
     }
-  };  
+  };
 
   // Handle form submission to POST the data
   const handleSubmit = async (e) => {
@@ -29,14 +30,16 @@ function BlastForm() {
       title,
       caption,
       channel: channels,
-      date: new Date(schedule).toISOString(), // Extract date
+      date: new Date(schedule).toISOString(),
+      media: mediaType,
       time: new Date(schedule).toLocaleTimeString(), // Extract time
-      totalBroadcast, // Example, can adjust based on your requirement
+      totalBroadcast,
     };
-    console.log(payload.date)
+    console.log(payload.media);
     try {
       const response = await BlastService.createBlast(payload);
       alert('Blast created successfully!');
+      navigate('/');
       console.log('Response:', response);
     } catch (error) {
       console.error('Error creating blast:', error);
