@@ -1,32 +1,48 @@
 // src/redux/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AuthService from '../services/auth-service';
-
 // Thunk to handle async login action
-export const login = createAsyncThunk('auth/login', async (user, { rejectWithValue }) => {
-  try {
-    const response = await AuthService.login(user);
-    return response;
-  } catch (error) {
-    return rejectWithValue(error.message);
+export const login = createAsyncThunk(
+  'auth/login',
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.login(user);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Thunk to handle async register action
-export const register = createAsyncThunk('auth/register', async (user, { rejectWithValue }) => {
-  try {
-    const response = await AuthService.register(user);
-    return response;
-  } catch (error) {
-    return rejectWithValue(error.message);
+export const register = createAsyncThunk(
+  'auth/register',
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.register(user);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
-
+);
+export const checkAuthStatus = createAsyncThunk(
+  'auth/checkAuthStatus',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      if (AuthService.isTokenExpired()) {
+        dispatch(logout());
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 // Initial state for auth slice
 const initialState = {
   user: AuthService.getUser() || null,
   token: AuthService.getToken() || null,
-  isAuthenticated: !!AuthService.getToken(),
+  isAuthenticated: AuthService.isAuthenticated(),
   loading: false,
   error: null,
 };
@@ -72,6 +88,9 @@ const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(checkAuthStatus.fulfilled, (state) => {
+        state.isAuthenticated = AuthService.isAuthenticated();
       });
   },
 });

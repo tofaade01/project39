@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createBlast } from '../redux/blastStore'; // Import the createBlast action
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../layouts/Navbar';
 import './Blastform.css';
-import BlastService from '../services/blast-service';
-import { useNavigate } from 'react-router-dom';
+
 function BlastForm() {
   const [title, setTitle] = useState('');
   const [caption, setCaption] = useState('');
@@ -10,7 +12,13 @@ function BlastForm() {
   const [channels, setChannels] = useState([]); // Store selected channels
   const [schedule, setSchedule] = useState('');
   const [totalBroadcast, setTotalBroadcast] = useState(1); // Example field for the total broadcast count
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Accessing loading and error state from Redux
+  const { loading, error } = useSelector((state) => state.blast);
+
   // Handle checkbox changes for channels
   const handleChannelChange = (e) => {
     const { value, checked } = e.target;
@@ -21,11 +29,11 @@ function BlastForm() {
     }
   };
 
-  // Handle form submission to POST the data
-  const handleSubmit = async (e) => {
+  // Handle form submission to dispatch the createBlast action
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prepare the payload to send to the backend
+    // Prepare the payload to send to Redux
     const payload = {
       title,
       caption,
@@ -35,16 +43,16 @@ function BlastForm() {
       time: new Date(schedule).toLocaleTimeString(), // Extract time
       totalBroadcast,
     };
-    console.log(payload.media);
-    try {
-      const response = await BlastService.createBlast(payload);
-      alert('Blast created successfully!');
-      navigate('/');
-      console.log('Response:', response);
-    } catch (error) {
-      console.error('Error creating blast:', error);
-      alert('Failed to create blast.');
-    }
+
+    // Dispatch the createBlast action
+    dispatch(createBlast(payload))
+      .then(() => {
+        alert('Blast created successfully!');
+        navigate('/');
+      })
+      .catch(() => {
+        alert('Failed to create blast.');
+      });
   };
 
   return (
@@ -116,14 +124,6 @@ function BlastForm() {
                   Text
                 </label>
               </div>
-              <div className="media-upload">
-                <div className="upload-box">
-                  <input type="file" id="mediaUpload" className="file-input" />
-                  <label htmlFor="mediaUpload" className="upload-label">
-                    Drag files or browse files
-                  </label>
-                </div>
-              </div>
             </div>
 
             {/* Channel Blasting */}
@@ -184,9 +184,15 @@ function BlastForm() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Create Blast
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'Creating...' : 'Create Blast'}
             </button>
+
+            {error && <p className="error-message">{error}</p>}
           </form>
         </div>
       </Navbar>

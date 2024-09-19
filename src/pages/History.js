@@ -1,83 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBroadcastHistory } from '../redux/blastStore'; // Import the getAllBlasts action
 import Navbar from '../layouts/Navbar';
 import './History.css'; // Import a CSS file for custom styling
-
+import dateFormat from 'dateformat';
+import frame2 from '../images/Frame2.svg';
+import Pagination from '../layouts/Pagination';
 function History() {
-  const broadcastData = [
-    {
-      campaignName: 'Start Up Scholarship',
-      media: 'Image',
-      channel: 'Instagram, X, WhatsApp',
-      createdDate: '05-09-2024',
-      broadcastDate: '06-09-2024 03.00 p.m',
-      status: 'Finish',
-    },
-    {
-      campaignName: 'Start Up Scholarship',
-      media: 'Video',
-      channel: 'Instagram, YouTube, TikTok',
-      createdDate: '05-09-2024',
-      broadcastDate: '06-09-2024 01.00 p.m',
-      status: 'Finish',
-    },
-    {
-      campaignName: 'Meriah Awal Bulan',
-      media: 'Image',
-      channel: 'Instagram, X',
-      createdDate: '30-08-2024',
-      broadcastDate: '01-08-2024 01.00 p.m',
-      status: 'Finish',
-    },
-    // Add more rows as needed
-  ];
+  const dispatch = useDispatch();
+  const { history, loading, error } = useSelector((state) => state.blast); // Get state from blastSlice
+  const [currentPage, setCurrentPage] = useState(1); // State for the current page
+  const [itemsPerPage] = useState(4);
 
+  useEffect(() => {
+    dispatch(getBroadcastHistory());
+  }, [dispatch]);
+  const hist = Array.isArray(history)
+    ? history.filter((h) => h.status === 'Finish')
+    : [];
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = hist.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <Navbar>
       <div className="history-page">
         <div className="header-section">
           <h1>Let's take a look on your journey</h1>
           <img
-            src="https://www.bootstrapdash.com/blog/wp-content/uploads/2020/01/BD-jumbotron-examples.jpg" // Replace with actual image path
+            src={frame2} // Replace with actual image path
             alt="Journey Illustration"
             className="journey-illustration"
           />
         </div>
-
-        <div className="table-section">
-          <h2>History Broadcast Activities</h2>
-          <table className="broadcast-table">
-            <thead>
-              <tr>
-                <th>Campaign Name</th>
-                <th>Media</th>
-                <th>Channel</th>
-                <th>Created Date</th>
-                <th>Broadcast Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {broadcastData.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.campaignName}</td>
-                  <td>{item.media}</td>
-                  <td>{item.channel}</td>
-                  <td>{item.createdDate}</td>
-                  <td>{item.broadcastDate}</td>
-                  <td>{item.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Pagination can be added here */}
-          <div className="pagination">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            {/* Add more pagination buttons as needed */}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="table-section">
+            <h2>History Broadcast Activities</h2>
+            {error ? (
+              <p className="error-message">{error}</p>
+            ) : (
+              <table className="broadcast-table">
+                <thead>
+                  <tr>
+                    <th>Campaign Name</th>
+                    <th>Media</th>
+                    <th>Channel</th>
+                    <th>Created Date</th>
+                    <th>Broadcast Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.isArray(currentItems) ? (
+                    currentItems.map((blast) => (
+                      <tr key={blast._id}>
+                        <td>{blast.title}</td>
+                        <td>{blast.media}</td>
+                        <td>
+                          {Array.isArray(blast.channel)
+                            ? blast.channel.join(', ')
+                            : blast.channel}
+                        </td>
+                        <td>
+                          {new Date(blast.createdDate).toLocaleDateString()}
+                        </td>
+                        <td>{dateFormat(blast.date, 'YYYY-MM-DDTHH:mm')}</td>
+                        <td>{blast.status}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <p>No Broadcast Histories Found</p>
+                  )}
+                </tbody>
+              </table>
+            )}
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={hist.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </div>
-        </div>
+        )}
       </div>
     </Navbar>
   );

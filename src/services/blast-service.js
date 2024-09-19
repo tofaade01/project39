@@ -28,11 +28,76 @@ class BlastService {
   async getAllBlasts() {
     try {
       const response = await axios.get(`${API_URL}user/create`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       throw new Error(
         error.response ? error.response.data.message : 'Failed to fetch blasts'
+      );
+    }
+  }
+
+  async getBroadcastHistory() {
+    try {
+      const response = await axios.get(`${API_URL}broadcasts/history`);
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : 'Failed to fetch history'
+      );
+    }
+  }
+  async blastNow(blasts) {
+    try {
+      const response = await axios.post(`${API_URL}user/blast-now`, {
+        title: blasts.title,
+        caption: blasts.caption,
+        channel: blasts.channel,
+        media: blasts.media,
+        date: blasts.date,
+        createdDate: blasts.createdDate,
+        totalBroadcast: blasts.totalBroadcast,
+        status: blasts.status,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : 'Blast now failed'
+      );
+    }
+  }
+
+  async editBlast(blasts) {
+    try {
+      const response = await axios.put(
+        `${API_URL}user/editblast/${blasts.id}`,
+        {
+          id: blasts.id,
+          title: blasts.title,
+          caption: blasts.caption,
+          channel: blasts.channel,
+          media: blasts.media,
+          date: blasts.date,
+          totalBroadcast: blasts.totalBroadcast,
+        }
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : 'Edit blast failed'
+      );
+    }
+  }
+
+  async deleteBlast(blasts) {
+    try {
+      const response = await axios.delete(`${API_URL}user/deleteblast`, {
+        id: blasts._id,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : 'Delete blast failed'
       );
     }
   }

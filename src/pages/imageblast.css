@@ -1,108 +1,132 @@
 /* UpcomingBlast.css */
 .upcoming-blast-container {
-    padding: 20px;
-  }
-  
-  .blast-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .blast-header h2 {
-    font-size: 24px;
-  }
-  
-  .search-bar input {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .broadcast-cards-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  .broadcast-card {
-    background-color: #f7f8fa;
-    border-radius: 8px;
-    display: flex;
-    padding: 20px;
-    position: relative;
-  }
-  
-  .broadcast-image img {
-    width: 150px;
-    height: 100px;
-    border-radius: 8px;
-  }
-  
-  .broadcast-details {
-    margin-left: 20px;
-    flex: 1;
-  }
-  
-  .broadcast-details h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .broadcast-details p {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .card-buttons {
-    margin-top: 20px;
-  }
-  
-  .cancel-btn, .blast-btn {
-    padding: 10px 20px;
-    border-radius: 20px;
-    margin-right: 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .cancel-btn {
-    background-color: #f5f5f5;
-    color: #333;
-  }
-  
-  .blast-btn {
-    background-color: #ec5677;
-    color: #fff;
-  }
-  
-  .edit-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 16px;
-    color: #ec5677;
-    cursor: pointer;
-  }
-  
-  .pagination {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .pagination-btn {
-    padding: 10px;
-    border-radius: 50%;
-    margin: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    cursor: pointer;
-  }
-  
-  .pagination-btn.active {
-    background-color: #ec5677;
-    color: #fff;
-  }
-  
+  padding: 20px;
+}
+
+.blast-header {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 20px;
+}
+
+.blast-header h2 {
+  font-size: 24px;
+  color: #1b1481;
+  font-weight: bolder;
+}
+
+.blast-header p {
+  font-size: 14px;
+  color: #797892;
+}
+
+.broadcast-cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.broadcast-card {
+  background-color: #f7f8fa;
+  border-radius: 8px;
+  display: flex;
+  padding: 20px;
+  position: relative;
+}
+
+.broadcast-image img {
+  width: 150px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+.broadcast-details {
+  margin-left: 20px;
+  flex: 1;
+}
+
+.broadcast-details h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #1b1481;
+}
+
+.broadcast-details p {
+  font-size: 14px;
+  color: #666;
+}
+
+.card-buttons {
+  margin-top: 20px;
+}
+
+.cancel-btn,
+.blast-btn {
+  padding: 10px 10px;
+  border-radius: 20px;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.blast-btn {
+  background-color: #ec5677;
+  color: #fff;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
+  color: #ec5677;
+  cursor: pointer;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-btn {
+  padding: 10px;
+  border-radius: 50%;
+  margin: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination-btn.active {
+  background-color: #ec5677;
+  color: #fff;
+}
+.modal {
+  display: flex; /* Use flex to center the modal */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* Make sure it's on top of other content */
+}
+
+.modal-content {
+  background-color: rgb(240, 142, 202);
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* Adjust the width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  margin-top: 10px;
+}

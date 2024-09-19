@@ -11,14 +11,18 @@ class AuthService {
         email: user.email,
         password: user.password,
       });
-      console.log(response.data.token)
+      const loginTime = new Date().getTime();
+      console.log(loginTime);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('loginTime', loginTime);
       }
       return response.data;
     } catch (error) {
-      throw new Error(error.response ? error.response.data.message : 'Login failed');
+      throw new Error(
+        error.response ? error.response.data.message : 'Login failed'
+      );
     }
   }
 
@@ -26,6 +30,7 @@ class AuthService {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('loginTime');
   }
 
   // Register the user
@@ -37,11 +42,22 @@ class AuthService {
       });
       return response.data;
     } catch (error) {
-      throw new Error(error.response ? error.response.data.message : 'Registration failed');
+      throw new Error(
+        error.response ? error.response.data.message : 'Registration failed'
+      );
     }
   }
 
-  // Utility to store token in localStorage
+  isTokenExpired() {
+    const loginTime = localStorage.getItem('loginTime');
+    if (loginTime) {
+      const currentTime = new Date().getTime();
+      const elapsedTime = currentTime - loginTime; // Time elapsed since login (in milliseconds)
+      const thirtyMinutes = 30 * 60 * 1000;
+      return elapsedTime > thirtyMinutes;
+    }
+    return true; // If there's no loginTime, consider token expired
+  }
   setToken(token) {
     localStorage.setItem('token', token);
   }
@@ -63,16 +79,18 @@ class AuthService {
 
   // Check if the user is logged in (valid token)
   isAuthenticated() {
-    return !!this.getToken();
+    return !!this.getToken() && !this.isTokenExpired();
   }
 
   // Get axios headers with Authorization token
   getAuthHeader() {
     const token = this.getToken();
-    if (token) {
+    if (token && !this.isTokenExpired()) {
       return { Authorization: `Bearer ${token}` };
+    } else {
+      this.logout();
+      return {};
     }
-    return {};
   }
 }
 // eslint-disable-next-line
