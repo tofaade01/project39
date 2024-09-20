@@ -96,6 +96,11 @@ async function deleteBroadcast(id) {
   return Broadcast.findByIdAndDelete(id);
 }
 
+async function updateBroadcast(id, broadcast) {
+    return Broadcast.findByIdAndUpdate(id, broadcast, { new: true });
+}
+  
+
 module.exports = {
   getUsers,
   createUser,
@@ -119,4 +124,5 @@ module.exports = {
   findOneByTotalBroadcast,
   getBroadcasts,
   deleteBroadcast,
+  updateBroadcast,
 };

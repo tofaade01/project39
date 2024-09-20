@@ -124,7 +124,7 @@ app.post('/register', async (req, res) => {
 
 app.put('/user/blast-now/:id', async (req, res) => {
   try {
-    const { id } = req.params; // Ambil ID broadcast yang akan diupdate
+    const { id } = req.body; // Ambil ID broadcast yang akan diupdate
 
     // Mendapatkan waktu GMT saat ini
     const localCreatedDate = new Date();
@@ -141,7 +141,7 @@ app.put('/user/blast-now/:id', async (req, res) => {
 
     // Lakukan update broadcast berdasarkan broadcastId
     const updatedBroadcast = await userQuery.updateBroadcast(
-      broadcastId,
+      id,
       updatedPayload
     );
 
@@ -184,7 +184,7 @@ app.put('/user/blast-now/:id', async (req, res) => {
 app.delete('/user/broadcast/:id', async (req, res) => {
   try {
     const { id } = req.params; // Ambil ID broadcast dari parameter
-    
+
     // Lakukan penghapusan broadcast berdasarkan ID
     const deletedBroadcast = await userQuery.deleteBroadcast(id);
 
