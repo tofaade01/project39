@@ -92,6 +92,10 @@ async function getBroadcasts() {
     return Broadcast.find();
 }
 
+async function deleteBroadcast(id) {
+    return Users.findByIdAndDelete(id);
+}
+
 
 module.exports = {
     getUsers,
@@ -115,4 +119,5 @@ module.exports = {
     findOneByDate, 
     findOneByTotalBroadcast,
     getBroadcasts,
+    deleteBroadcast,
 };

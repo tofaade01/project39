@@ -122,18 +122,10 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.post('/user/blast-now', async (req, res) => {
+app.put('/user/blast-now/:id', async (req, res) => {
   try {
-    const {
-      title,
-      caption,
-      channel,
-      date,
-      createdDate,
-      totalBroadcast,
-      status,
-    } = req.body;
-
+    const { id } = req.params; // Ambil ID broadcast yang akan diupdate
+    
     // Mendapatkan waktu GMT saat ini
     const localCreatedDate = new Date();
     const offsetHours = localCreatedDate.getTimezoneOffset() / 60;
@@ -141,58 +133,74 @@ app.post('/user/blast-now', async (req, res) => {
       localCreatedDate.getTime() - offsetHours * 60 * 60 * 1000
     );
 
-    const payload = {
-      title,
-      caption,
-      channel,
-      date: new Date(date), // Memastikan payload.date adalah waktu GMT
-      createdDate: gmtCreatedDate,
-      totalBroadcast,
-      status: 'Finish',
+    // Payload baru yang akan diupdate dengan date sekarang dan status 'Finish'
+    const updatedPayload = {
+      date: gmtCreatedDate, // Update dengan tanggal GMT sekarang
+      status: 'Finish',     // Update status menjadi 'Finish'
     };
 
-    const broadcast = await blastNow(payload);
+    // Lakukan update broadcast berdasarkan broadcastId
+    const updatedBroadcast = await userQuery.updateBroadcast(broadcastId, updatedPayload);
 
-    const broadcastBlast = {
-      title,
-      caption,
-      channel,
-      date: gmtCreatedDate, // Memastikan payload.date adalah waktu GMT
-      createdDate: gmtCreatedDate,
-      totalBroadcast,
-      status: 'Finish',
-    };
-
-    userQuery.createBroadcast(broadcastBlast).then((broadcastBlast) => {
-      res
-        .status(202)
-        .json({ message: 'Success blast broadcast!', broadcastBlast });
-    });
+    if (updatedBroadcast) {
+      res.status(200).json({
+        message: 'Broadcast updated successfully!',
+        updatedBroadcast,
+      });
+    } else {
+      res.status(404).json({ message: 'Broadcast not found' });
+    }
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: 'Blast broadcast ' + error });
+    res.status(500).json({ message: 'Failed to update broadcast: ' + error });
   }
 });
 
-async function blastNow(payload) {
+// Fungsi blastNow sudah tidak diperlukan jika hanya update
+
+
+
+// async function blastNow(payload) {
+//   try {
+//     // Mendapatkan waktu GMT saat ini
+//     const localCreatedDate = new Date();
+//     const gmtCreatedDate = new Date(localCreatedDate.toISOString()); // Mengonversi ke GMT
+
+//     console.log('ISO Format:', gmtCreatedDate.toISOString());
+//     console.log('Payload Date:', payload.date.toISOString());
+
+//     if (payload.date <= gmtCreatedDate) {
+//       throw new Error('Broadcast already finished!');
+//     }
+
+//     return payload;
+//   } catch (error) {
+//     console.error('Error register', error);
+//     throw error;
+//   }
+// }
+
+app.delete('/user/broadcast/:id', async (req, res) => {
   try {
-    // Mendapatkan waktu GMT saat ini
-    const localCreatedDate = new Date();
-    const gmtCreatedDate = new Date(localCreatedDate.toISOString()); // Mengonversi ke GMT
+    const { id } = req.params; // Ambil ID broadcast dari parameter
 
-    console.log('ISO Format:', gmtCreatedDate.toISOString());
-    console.log('Payload Date:', payload.date.toISOString());
+    // Lakukan penghapusan broadcast berdasarkan ID
+    const deletedBroadcast = await userQuery.deleteBroadcast(id);
 
-    if (payload.date <= gmtCreatedDate) {
-      throw new Error('Broadcast already finished!');
+    if (deletedBroadcast) {
+      res.status(200).json({
+        message: 'Broadcast deleted successfully!',
+        deletedBroadcast,
+      });
+    } else {
+      res.status(404).json({ message: 'Broadcast not found' });
     }
-
-    return payload;
   } catch (error) {
-    console.error('Error register', error);
-    throw error;
+    console.log(error);
+    res.status(500).json({ message: 'Failed to delete broadcast: ' + error });
   }
-}
+});
+
 
 app.post('/user/create', async (req, res) => {
   // Async untuk concurrency, request dan responds
@@ -202,7 +210,6 @@ app.post('/user/create', async (req, res) => {
       caption,
       channel,
       date,
-      media,
       createdDate,
       totalBroadcast,
       status,
@@ -216,6 +223,7 @@ app.post('/user/create', async (req, res) => {
     const gmtCreatedDate = new Date(
       localCreatedDate.getTime() - offsetHours * 60 * 60 * 1000
     );
+    const broadcast = await upBlast(payload);
 
     console.log(localCreatedDate);
     const payload = {
@@ -223,12 +231,11 @@ app.post('/user/create', async (req, res) => {
       caption,
       channel,
       date,
-      media,
       createdDate: gmtCreatedDate,
       totalBroadcast,
       status: 'Pending',
-    };
-    const broadcast = await upBlast(payload);
+    }; // Untuk menyimpan ketiga variabel menjadi satu paket
+
     userQuery.createBroadcast(broadcast).then((broadcast) => {
       res
         .status(202)
@@ -240,17 +247,33 @@ app.post('/user/create', async (req, res) => {
   }
 });
 
-app.get('/user/create', async (req, res) => {
+app.delete('/user/:id', async (req, res) => {
   try {
-    await updateBroadcastStatus();
+    const { id } = req.params; // Ambil ID broadcast dari parameter
 
-    // Fetch the broadcasts and return them
-    const broadcasts = await userQuery.getBroadcasts();
-    res.json(broadcasts);
+    // Lakukan penghapusan broadcast berdasarkan ID
+    const deletedBroadcast = await userQuery.deleteBroadcast(id);
+
+    if (deletedBroadcast) {
+      res.status(200).json({
+        message: 'Broadcast deleted successfully!',
+        deletedBroadcast,
+      });
+    } else {
+      res.status(404).json({ message: 'Broadcast not found' });
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Failed to get broadcasts' + error });
+    res.status(500).json({ message: 'Failed to delete broadcast: ' + error });
   }
+});
+
+
+
+app.get('/user/create', (req, res) => {
+  userQuery.getBroadcasts().then((users) => {
+    res.json(users);
+  });
 });
 
 app.get('/broadcasts/history', async (req, res) => {
@@ -304,6 +327,7 @@ async function upBlast(payload) {
     console.log('ISO Format:', dateTimeISO);
 
     if (payload.date >= dateTimeISO) {
+      // Membandingkan hanya tanggal, tanpa waktu
       if (payload.date < dateTimeISO) {
         throw new Error('The time cannot be less than the current time!');
       }
