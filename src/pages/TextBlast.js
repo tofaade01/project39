@@ -36,14 +36,14 @@ function TextBlast() {
   }, [dispatch]);
 
   const handleBlastNow = (blasts) => {
-
-    dispatch(blastNow())
+    dispatch(blastNow(blasts))
       .then(() => {
-        toast.success('Success initiating blast');
-        navigate('/');
+        toast.success('Success initiating blast', {
+          onClose: () => navigate('/'),
+        });
       })
-      .catch(() => {
-        toast.success('Success initiating blast');
+      .catch((error) => {
+        toast.error(error.message || 'Failed to initiate blast');
       });
   };
 

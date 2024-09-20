@@ -42,7 +42,7 @@ export const getBroadcastHistory = createAsyncThunk(
 );
 
 export const blastNow = createAsyncThunk(
-  'user/blast-now',
+  'user/blast-now/:id',
   async (blastData, { rejectWithValue }) => {
     try {
       const response = await BlastService.blastNow(blastData);

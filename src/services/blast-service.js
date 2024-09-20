@@ -48,9 +48,13 @@ class BlastService {
   }
   async blastNow(blasts) {
     try {
-      const response = await axios.put(`${API_URL}user/blast-now/:id`, {
-        id: blasts.id,
-      });
+      const response = await axios.put(
+        `${API_URL}user/blast-now/${blasts._id}`,
+        {
+          id: blasts.id,
+        }
+      );
+      console.log(blasts.id);
       return response.data;
     } catch (error) {
       throw new Error(
