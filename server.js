@@ -303,7 +303,6 @@ app.post('/user/create', async (req, res) => {
     const gmtCreatedDate = new Date(
       localCreatedDate.getTime() - offsetHours * 60 * 60 * 1000
     );
-    const broadcast = await upBlast(payload);
 
     const payload = {
       title,
@@ -314,7 +313,9 @@ app.post('/user/create', async (req, res) => {
       createdDate: gmtCreatedDate,
       totalBroadcast,
       status: 'Pending',
-    }; // Untuk menyimpan ketiga variabel menjadi satu paket
+    }; 
+
+    const broadcast = await upBlast(payload);
 
     userQuery.createBroadcast(broadcast).then((broadcast) => {
       res
