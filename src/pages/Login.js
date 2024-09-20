@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/authStore'; // Import the login action from Redux store
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,19 +24,23 @@ const Login = () => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: ''
+      password: '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
       try {
         // Dispatch the login action from Redux
-        await dispatch(login({ email: values.email, password: values.password }));
+        await dispatch(
+          login({ email: values.email, password: values.password })
+        );
         setLoading(false);
-        navigate('/'); // Redirect to home on successful login
+        toast.success('Login successful!', {
+          onClose: () => navigate('/'), // Redirect to home on successful login
+        });
       } catch (err) {
         setLoading(false);
-        setMessage(err.message || 'Login failed');
+        toast.error('Login failed. Please check your credentials.');
       }
     },
   });
@@ -64,7 +68,9 @@ const Login = () => {
             <form onSubmit={formik.handleSubmit}>
               {/* Email input */}
               <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="email">Email</label>
+                <label className="form-label" htmlFor="email">
+                  Email
+                </label>
                 <input
                   type="text"
                   id="email"
@@ -78,7 +84,9 @@ const Login = () => {
 
               {/* Password input */}
               <div className="form-outline mb-3">
-                <label className="form-label" htmlFor="password">Password</label>
+                <label className="form-label" htmlFor="password">
+                  Password
+                </label>
                 <input
                   type="password"
                   id="password"
@@ -96,23 +104,17 @@ const Login = () => {
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
                   style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
-                  disabled={loading}  // Disable button during loading
+                  disabled={loading} // Disable button during loading
                 >
-                  {loading && <span className="spinner-border spinner-border-sm"></span>}
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
                   <span>Login</span>
                 </button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account? <a href="/register">Register here</a>
                 </p>
               </div>
-
-              {/* Error or success message */}
-              {message && (
-                <div className="alert alert-danger" role="alert">
-                  {message}
-                </div>
-              )}
-
               {error && (
                 <div className="alert alert-danger" role="alert">
                   {error}
@@ -122,6 +124,15 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </section>
   );
 };

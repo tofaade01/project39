@@ -82,7 +82,6 @@ function TextBlast() {
   };
   const openDeleteModal = (blasts) => {
     setCurrentBlast(blasts);
-    console.log(setCurrentBlast(blasts));
     setDeleteModalOpen(true);
   };
 
