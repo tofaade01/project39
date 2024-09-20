@@ -36,18 +36,8 @@ function TextBlast() {
   }, [dispatch]);
 
   const handleBlastNow = (blasts) => {
-    const payload = {
-      title: blasts.title,
-      caption: blasts.description,
-      channel: blasts.channel,
-      media: blasts.media,
-      date: new Date(blasts.date).toISOString(),
-      createdDate: new Date(blasts.createdDate).toISOString(),
-      totalBroadcast: blasts.totalBroadcast,
-      status: blasts.status,
-    };
 
-    dispatch(blastNow(payload))
+    dispatch(blastNow())
       .then(() => {
         toast.success('Success initiating blast');
         navigate('/');
