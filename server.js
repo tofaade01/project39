@@ -125,7 +125,7 @@ app.post('/register', async (req, res) => {
 app.put('/user/blast-now/:id', async (req, res) => {
   try {
     const { id } = req.params; // Ambil ID broadcast yang akan diupdate
-    
+
     // Mendapatkan waktu GMT saat ini
     const localCreatedDate = new Date();
     const offsetHours = localCreatedDate.getTimezoneOffset() / 60;
@@ -136,11 +136,14 @@ app.put('/user/blast-now/:id', async (req, res) => {
     // Payload baru yang akan diupdate dengan date sekarang dan status 'Finish'
     const updatedPayload = {
       date: gmtCreatedDate, // Update dengan tanggal GMT sekarang
-      status: 'Finish',     // Update status menjadi 'Finish'
+      status: 'Finish', // Update status menjadi 'Finish'
     };
 
     // Lakukan update broadcast berdasarkan broadcastId
-    const updatedBroadcast = await userQuery.updateBroadcast(broadcastId, updatedPayload);
+    const updatedBroadcast = await userQuery.updateBroadcast(
+      broadcastId,
+      updatedPayload
+    );
 
     if (updatedBroadcast) {
       res.status(200).json({
@@ -157,8 +160,6 @@ app.put('/user/blast-now/:id', async (req, res) => {
 });
 
 // Fungsi blastNow sudah tidak diperlukan jika hanya update
-
-
 
 // async function blastNow(payload) {
 //   try {
@@ -183,7 +184,7 @@ app.put('/user/blast-now/:id', async (req, res) => {
 app.delete('/user/broadcast/:id', async (req, res) => {
   try {
     const { id } = req.params; // Ambil ID broadcast dari parameter
-
+    
     // Lakukan penghapusan broadcast berdasarkan ID
     const deletedBroadcast = await userQuery.deleteBroadcast(id);
 
@@ -200,7 +201,6 @@ app.delete('/user/broadcast/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to delete broadcast: ' + error });
   }
 });
-
 
 app.post('/user/create', async (req, res) => {
   // Async untuk concurrency, request dan responds
@@ -267,8 +267,6 @@ app.delete('/user/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to delete broadcast: ' + error });
   }
 });
-
-
 
 app.get('/user/create', (req, res) => {
   userQuery.getBroadcasts().then((users) => {
