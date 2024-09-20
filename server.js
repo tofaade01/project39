@@ -121,7 +121,28 @@ app.post('/register', async (req, res) => {
     res.status(404).json({ message: 'Register ' + error });
   }
 });
-
+app.put('/user/editblast/:id', async (req, res) => {
+  try {
+    const { id } = req.body;
+    const payload = req.body;
+    userQuery.updateBroadcast(id, payload);
+    res.status(200).json({ message: 'Update success' });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: 'Update ' + error });
+  }
+});
+app.delete('/user/deleteblast/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    userQuery.deleteBroadcast(id);
+    res.status(200).json({ message: 'Delete success' });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: 'Delete ' + error });
+  }
+});
 app.post('/user/blast-now', async (req, res) => {
   try {
     const {
@@ -129,6 +150,7 @@ app.post('/user/blast-now', async (req, res) => {
       caption,
       channel,
       date,
+      media,
       createdDate,
       totalBroadcast,
       status,
@@ -145,6 +167,7 @@ app.post('/user/blast-now', async (req, res) => {
       title,
       caption,
       channel,
+      media,
       date: new Date(date), // Memastikan payload.date adalah waktu GMT
       createdDate: gmtCreatedDate,
       totalBroadcast,
@@ -157,6 +180,7 @@ app.post('/user/blast-now', async (req, res) => {
       title,
       caption,
       channel,
+      media,
       date: gmtCreatedDate, // Memastikan payload.date adalah waktu GMT
       createdDate: gmtCreatedDate,
       totalBroadcast,
@@ -217,7 +241,6 @@ app.post('/user/create', async (req, res) => {
       localCreatedDate.getTime() - offsetHours * 60 * 60 * 1000
     );
 
-    console.log(localCreatedDate);
     const payload = {
       title,
       caption,
@@ -246,7 +269,7 @@ app.get('/user/create', async (req, res) => {
 
     // Fetch the broadcasts and return them
     const broadcasts = await userQuery.getBroadcasts();
-    res.json(broadcasts);
+    res.status(200).json(broadcasts);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Failed to get broadcasts' + error });
