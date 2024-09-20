@@ -91,9 +91,12 @@ class BlastService {
 
   async deleteBlast(blasts) {
     try {
-      const response = await axios.delete(`${API_URL}user/deleteblast`, {
-        id: blasts._id,
-      });
+      const response = await axios.delete(
+        `${API_URL}user/deleteblast/${blasts.id}`,
+        {
+          id: blasts.id,
+        }
+      );
       return response.data;
     } catch (error) {
       throw new Error(

@@ -4,6 +4,8 @@ import { createBlast } from '../redux/blastStore'; // Import the createBlast act
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../layouts/Navbar';
 import './Blastform.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function BlastForm() {
   const [title, setTitle] = useState('');
@@ -47,11 +49,12 @@ function BlastForm() {
     // Dispatch the createBlast action
     dispatch(createBlast(payload))
       .then(() => {
-        alert('Blast created successfully!');
-        navigate('/');
+        toast.success('Blast created successfully!', {
+          onClose: () => navigate('/'),
+        });
       })
       .catch(() => {
-        alert('Failed to create blast.');
+        toast.error('Failed to create blast.');
       });
   };
 
@@ -91,7 +94,7 @@ function BlastForm() {
 
             {/* Media */}
             <div className="form-group">
-              <label>Media (optional to upload your image or video here)</label>
+              <label>Media</label>
               <div className="media-toggle">
                 <label>
                   <input
@@ -195,6 +198,15 @@ function BlastForm() {
             {error && <p className="error-message">{error}</p>}
           </form>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="colored"
+        />
       </Navbar>
     </div>
   );

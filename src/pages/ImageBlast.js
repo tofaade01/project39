@@ -11,6 +11,8 @@ import Navbar from '../layouts/Navbar';
 import Pagination from '../layouts/Pagination';
 import './imageblast.css'; // Add your custom CSS for styling
 import dateFormat from 'dateformat';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function BlastImage() {
   const [showFullText, setShowFullText] = useState(false);
   const dispatch = useDispatch();
@@ -50,11 +52,11 @@ function BlastImage() {
     // Dispatch the blastNow action
     dispatch(blastNow(payload))
       .then(() => {
-        alert('Blast initiated successfully!');
+        toast.success('Success initiating blast');
         navigate('/'); // Redirect or perform other actions
       })
       .catch(() => {
-        alert('Failed to initiate blast.');
+        toast.error('Failed to initiate blast');
       });
   };
   const blastss = Array.isArray(blasts)
@@ -94,11 +96,11 @@ function BlastImage() {
   const handleEditSubmit = async () => {
     try {
       dispatch(editBlast({ ...formData }));
-      alert('Blast updated successfully!');
+      toast.success('Blast updated successfully!');
       setEditModalOpen(false); // Close the modal
       dispatch(getAllBlasts()); // Refresh blasts
     } catch (error) {
-      alert('Failed to update blast.');
+      toast.error('Failed to update blast.' + error);
     }
   };
 
@@ -106,25 +108,22 @@ function BlastImage() {
   const handleDeleteSubmit = () => {
     dispatch(deleteBlast({ id: currentBlast._id }))
       .then(() => {
-        alert('Blast deleted successfully!');
+        toast.success('Blast deleted successfully!');
         setDeleteModalOpen(false); // Close the modal
         dispatch(getAllBlasts()); // Refresh blasts
       })
       .catch(() => {
-        alert('Failed to delete blast.');
+        toast.error('Failed to delete blast.');
       });
   };
 
   return (
     <Navbar>
       <div className="upcoming-blast-container">
-        {/* Search and Header Section */}
         <div className="blast-header d-flex flex-column justify-content-start">
           <h2>Recent Image Content Broadcast Activities</h2>
           <p>Monitor each of your broadcast processes and activities</p>
         </div>
-
-        {/* Cards Section */}
         <div className="broadcast-cards-container">
           {Array.isArray(currentItems) ? (
             currentItems.map((blast) => (
@@ -183,7 +182,7 @@ function BlastImage() {
               </div>
             ))
           ) : (
-            <p>No image content found.</p>
+            <p>No image content found...</p>
           )}
         </div>
         <Pagination
@@ -230,6 +229,7 @@ function BlastImage() {
                 name="totalBroadcast"
                 value={formData.totalBroadcast}
                 onChange={handleFormChange}
+                min="1"
               />
               <button onClick={handleEditSubmit}>Save Changes</button>
               <button onClick={() => setEditModalOpen(false)}>Cancel</button>
@@ -248,6 +248,15 @@ function BlastImage() {
           </div>
         )}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </Navbar>
   );
 }

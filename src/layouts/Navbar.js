@@ -10,7 +10,7 @@ export default function Navbar({ children }) {
   const dispatch = useDispatch();
 
   // Get auth state from Redux store
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -33,7 +33,10 @@ export default function Navbar({ children }) {
         onMouseLeave={() => setIsSidebarExpanded(false)}
       >
         <div className="position-sticky">
-          <div className="list-group list-group-flush mx-3 mt-5">
+          <div
+            className="list-group list-group-flush mx-3"
+            style={{ marginTop: '4rem' }}
+          >
             <div
               className={`list-group-item list-group-item-action py-2 ripple ${
                 location.pathname === '/' ? 'active' : ''
@@ -132,13 +135,8 @@ export default function Navbar({ children }) {
                 </li>
               ) : (
                 <>
-                  <div className="user-profile">
-                    <img
-                      src="https://via.placeholder.com/40" // Replace with actual image or profile link
-                      alt="User"
-                      className="rounded-circle"
-                    />
-                    <span>{user?.username}</span> {/* Show the user's name */}
+                  <div className="user-profile mr-5">
+                    {/* <span>{user.email}</span> Show the user's name */}
                   </div>
                   <li className="list-group-item list-group-item-action py-2 ripple">
                     <button className="btn btn-danger" onClick={handleLogout}>
