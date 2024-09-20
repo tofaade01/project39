@@ -18,7 +18,11 @@ const upSchema = new mongoose.Schema({
   caption: String,
   channel: [String],
   date: Date,
-  media: String,
+  media: {
+    type: String,
+    enum: ['Text', 'Photo', 'Video'],
+    default: 'Text',
+  },
   createdDate: Date,
   totalBroadcast: Number,
   status: {
