@@ -11,12 +11,12 @@ const Register = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
+      name: '',
       email: '',
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string()
+      name: Yup.string()
         .required('Username is required!')
         .min(3, 'Must be at least 3 characters!')
         .max(20, 'Must be maximum 20 characters!'),
@@ -33,16 +33,15 @@ const Register = () => {
       setLoading(true);
       try {
         await AuthService.register({
-          username: values.username,
+          name: values.name,
           email: values.email,
           password: values.password,
         });
-
         // On success, navigate to login page
         toast.success('Registration successful! Redirecting to login...');
         setTimeout(() => {
           navigate('/login');
-        }, 3000);
+        }, 2000);
       } catch (error) {
         toast.error(error.message || 'An error occurred during registration.');
         setLoading(false);
@@ -91,16 +90,16 @@ const Register = () => {
                           Username
                         </label>
                         <input
-                          name="username"
+                          name="name"
                           type="text"
                           className="form-control"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.username}
+                          value={formik.values.name}
                         />
-                        {formik.touched.username && formik.errors.username ? (
+                        {formik.touched.name && formik.errors.name ? (
                           <div className="error-feedback">
-                            {formik.errors.username}
+                            {formik.errors.name}
                           </div>
                         ) : null}
                       </div>
@@ -164,7 +163,15 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </section>
   );
 };

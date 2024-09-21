@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/authStore'; // Import logout action
+import { logout, users } from '../redux/authStore'; // Import logout action
 import './Navbar.css';
-
 export default function Navbar({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Get auth state from Redux store
+  // const { user } = useSelector((state) => state.auth);
   const { isAuthenticated } = useSelector((state) => state.auth);
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
@@ -23,7 +20,12 @@ export default function Navbar({ children }) {
     dispatch(logout());
     navigate('/login'); // Redirect to login after logout
   };
-
+  useEffect(() => {
+    dispatch(users());
+  }, [dispatch]);
+  // const emailuser = JSON.parse(localStorage.getItem('user'));
+  // const authuser =
+  //   user?.email && user?.email === emailuser?.email ? user : null;
   return (
     <div>
       <nav
@@ -136,7 +138,7 @@ export default function Navbar({ children }) {
               ) : (
                 <>
                   <div className="user-profile mr-5">
-                    {/* <span>{user.email}</span> Show the user's name */}
+                    {/* <span></span> Show the user's name */}
                   </div>
                   <li className="list-group-item list-group-item-action py-2 ripple">
                     <button className="btn btn-danger" onClick={handleLogout}>

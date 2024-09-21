@@ -37,23 +37,12 @@ function BlastImage() {
 
   // Handle blast now action
   const handleBlastNow = (blasts) => {
-    // Prepare the payload to send to Redux
-    const payload = {
-      title: blasts.title,
-      caption: blasts.description,
-      channel: blasts.channel,
-      media: blasts.media,
-      date: new Date(blasts.date).toISOString(),
-      createdDate: new Date(blasts.createdDate).toISOString(),
-      totalBroadcast: blasts.totalBroadcast,
-      status: blasts.status,
-    };
-
-    // Dispatch the blastNow action
-    dispatch(blastNow(payload))
+    dispatch(blastNow(blasts))
       .then(() => {
         toast.success('Success initiating blast');
-        navigate('/'); // Redirect or perform other actions
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       })
       .catch(() => {
         toast.error('Failed to initiate blast');
@@ -250,7 +239,7 @@ function BlastImage() {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBroadcastHistory } from '../redux/blastStore'; // Import the getAllBlasts action
 import Navbar from '../layouts/Navbar';
 import './History.css'; // Import a CSS file for custom styling
-import dateFormat from 'dateformat';
+import { format } from 'date-fns';
 import frame2 from '../images/Frame2.svg';
 import Pagination from '../layouts/Pagination';
 function History() {
@@ -66,7 +66,9 @@ function History() {
                         <td>
                           {new Date(blast.createdDate).toLocaleDateString()}
                         </td>
-                        <td>{dateFormat(blast.date, 'YYYY-MM-DDTHH:mm')}</td>
+                        <td>
+                          {format(new Date(blast.date), 'yyyy-MM-dd HH:mm')}
+                        </td>
                         <td>{blast.status}</td>
                       </tr>
                     ))

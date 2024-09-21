@@ -10,12 +10,8 @@ import BlastForm from '../pages/BlastForm';
 import History from '../pages/History';
 import PageNotFound from '../pages/PageNotFound';
 import ProtectedRoute from '../pages/ProtectedRoute';
-import Register from '../pages/Register'; 
+import Register from '../pages/Register';
 import Login from '../pages/Login';
-
-const Users = React.lazy(() => import('../pages/Users'));
-const UserDetails = React.lazy(() => import('../pages/UserDetails'));
-
 const AppRoute = () => {
   // Access the authentication state from Redux
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -27,52 +23,59 @@ const AppRoute = () => {
           <Route
             path={MENUS.HOME}
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<Home />} />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                element={<Home />}
+              />
             }
           />
           <Route
             path={MENUS.BLASTFORM}
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<BlastForm />} />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                element={<BlastForm />}
+              />
             }
           />
           <Route
             path={MENUS.HISTORY}
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<History />} />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                element={<History />}
+              />
             }
           />
           <Route
             path="/blast/photo"
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<BlastImage />} />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                element={<BlastImage />}
+              />
             }
           />
           <Route
             path="/blast/text"
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<TextBlast />} />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                element={<TextBlast />}
+              />
             }
           />
           <Route
             path="/blast/video"
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<VideoBlast />} />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                element={<VideoBlast />}
+              />
             }
           />
-          <Route
-            path={MENUS.USER}
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<Users />} />
-            }
-          />
-          <Route
-            path={MENUS.USER_DETAILS}
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated} element={<UserDetails />} />
-            }
-          />
-          <Route path="/register" element={<Register />} /> {/* Add Register route */}
+          <Route path="/register" element={<Register />} />{' '}
+          {/* Add Register route */}
           <Route path="/login" element={<Login />} /> {/* Add Login route */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>

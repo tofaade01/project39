@@ -31,24 +31,30 @@ const Login = () => {
       setLoading(true);
       try {
         // Dispatch the login action from Redux
-        await dispatch(
-          login({ email: values.email, password: values.password })
-        );
+        dispatch(login({ email: values.email, password: values.password }));
         setLoading(false);
-        toast.success('Login successful!', {
-          onClose: () => navigate('/'), // Redirect to home on successful login
-        });
+        toast.success('Login successful!');
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       } catch (err) {
         setLoading(false);
-        toast.error('Login failed. Please check your credentials.');
+        toast.error(
+          err.message || 'Login failed. Please check your credentials.'
+        );
       }
     },
   });
 
-  // If authenticated, redirect to the user profile page
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/', { replace: true });
+      // Delay navigation by 2 seconds (2000 ms)
+      const timer = setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 2000);
+
+      // Cleanup the timer when the component unmounts
+      return () => clearTimeout(timer);
     }
   }, [isAuthenticated, navigate]);
 
@@ -126,7 +132,7 @@ const Login = () => {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={1000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

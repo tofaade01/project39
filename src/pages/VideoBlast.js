@@ -36,24 +36,15 @@ function VideoBlast() {
   }, [dispatch]);
 
   const handleBlastNow = (blasts) => {
-    const payload = {
-      title: blasts.title,
-      caption: blasts.description,
-      channel: blasts.channel,
-      media: blasts.media,
-      date: new Date(blasts.date).toISOString(),
-      createdDate: new Date(blasts.createdDate).toISOString(),
-      totalBroadcast: blasts.totalBroadcast,
-      status: blasts.status,
-    };
-
-    dispatch(blastNow(payload))
+    dispatch(blastNow(blasts))
       .then(() => {
-        alert('Blast initiated successfully!');
-        navigate('/');
+        toast.success('Blast initiated successfully!');
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       })
       .catch(() => {
-        alert('Failed to initiate blast.');
+        toast.error('Failed to initiate blast.');
       });
   };
 
@@ -254,7 +245,7 @@ function VideoBlast() {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

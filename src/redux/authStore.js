@@ -26,6 +26,17 @@ export const register = createAsyncThunk(
     }
   }
 );
+export const users = createAsyncThunk(
+  'auth/register',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.getUsers();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const checkAuthStatus = createAsyncThunk(
   'auth/checkAuthStatus',
   async (_, { rejectWithValue, dispatch }) => {

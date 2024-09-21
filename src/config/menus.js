@@ -5,8 +5,6 @@ const MENUS = {
   VIDEOBLAST: '/blast/video',
   BLASTFORM: '/create',
   HISTORY: '/history',
-  USER: '/user',
-  USER_DETAILS: '/user/details/:userId',
 };
 
 export default MENUS;

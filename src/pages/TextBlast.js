@@ -38,9 +38,10 @@ function TextBlast() {
   const handleBlastNow = (blasts) => {
     dispatch(blastNow(blasts))
       .then(() => {
-        toast.success('Success initiating blast', {
-          onClose: () => navigate('/'),
-        });
+        toast.success('Success initiating blast');
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       })
       .catch((error) => {
         toast.error(error.message || 'Failed to initiate blast');
@@ -228,7 +229,7 @@ function TextBlast() {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

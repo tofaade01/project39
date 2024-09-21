@@ -11,6 +11,7 @@ class AuthService {
         email: user.email,
         password: user.password,
       });
+      console.log(user.name);
       const loginTime = new Date().getTime();
       console.log(loginTime);
       if (response.data.token) {
@@ -37,9 +38,11 @@ class AuthService {
   async register(user) {
     try {
       const response = await axios.post(`${API_URL}register`, {
+        name: user.name,
         email: user.email,
         password: user.password,
       });
+      console.log(user.name);
       return response.data;
     } catch (error) {
       throw new Error(
@@ -47,7 +50,16 @@ class AuthService {
       );
     }
   }
-
+  async getUsers() {
+    try {
+      const response = await axios.get(`${API_URL}register`);
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response ? error.response.data.message : 'Failed to get user data'
+      );
+    }
+  }
   isTokenExpired() {
     const loginTime = localStorage.getItem('loginTime');
     if (loginTime) {
