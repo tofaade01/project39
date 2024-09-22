@@ -100,7 +100,7 @@
 
 /* Media icon positioning (if needed for icons or images) */
 .broadcast-card::before {
-  font-family: 'Font Awesome 5 Free';
+  font-family: 'Inter';
   font-weight: 900;
   position: absolute;
   top: 10px;

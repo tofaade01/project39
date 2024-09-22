@@ -17,7 +17,7 @@ function Home() {
       <div className="home-container">
         <div
           className="image-text-container d-flex"
-          style={{ backgroundColor: '#FCCCEC' }}
+          style={{ backgroundColor: '#FEF3F6' }}
         >
           <div className="top-message px-3 mt-4">
             <h1>
