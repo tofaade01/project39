@@ -29,7 +29,7 @@
   justify-content: center;
   gap: 0.5rem;
   font-size: 1.5rem;
-  color: #f63f64;
+  color: #BA0E44;
   margin-bottom: 0.5rem;
 }
 
@@ -40,14 +40,14 @@
 
 .insight-card h2 {
   font-size: 1.8rem;
-  color: #f63f64;
+  color: #BA0E44;
   margin-bottom: 0.5rem;
 }
 
 .fab {
   font-size: 1.5rem;
   margin: 0 0.5rem;
-  color: #f63f64;
+  color: #BA0E44;
 }
 .broadcast-activities {
   margin-top: 20px;
