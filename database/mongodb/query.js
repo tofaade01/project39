@@ -18,7 +18,6 @@ async function createUser(user) {
 
 async function createBroadcast(broadcast) {
   return Broadcast.create(broadcast);
-  return Broadcast.create(broadcast);
 }
 async function updateBroadcast(id, broadcast) {
   return Broadcast.findByIdAndUpdate(id, broadcast, { new: true });

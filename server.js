@@ -94,8 +94,8 @@ app.get('/register', (req, res) => {
 // Route to login user
 app.post('/user/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const payload = { email, password };
+    const { name, email, password } = req.body;
+    const payload = { name, email, password };
     const token = await login(payload); // Untuk nunggu sebentar saat lagi memproses
     res.status(200).json({ message: 'Success login!', token }); // Responds dan status yang dikirim, status bisa variatif tergantung message
   } catch (err) {
@@ -112,8 +112,8 @@ app.post('/register', async (req, res) => {
     const { name, email, password } = req.body; // Nerima dari frontend
     const payload = { name, email, password }; // Untuk menyimpan ketiga variabel menjadi satu paket
     const user = await register(payload);
-
-    userQuery.createUser(user).then((user) => {
+    console.log(user);
+    userQuery.createUser(user).then(() => {
       res.status(201).json({ message: 'Register success' }); // Respond with the created user and status code 201
     });
   } catch (error) {
@@ -137,7 +137,6 @@ app.put('/user/editblast/:id', async (req, res) => {
 app.delete('/user/deleteblast/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     userQuery.deleteBroadcast(id);
     res.status(200).json({ message: 'Delete success' });
   } catch (error) {
@@ -313,7 +312,7 @@ app.post('/user/create', async (req, res) => {
       createdDate: gmtCreatedDate,
       totalBroadcast,
       status: 'Pending',
-    }; 
+    };
 
     const broadcast = await upBlast(payload);
 
@@ -457,7 +456,6 @@ async function register(payload) {
     }
 
     if (checkEmail.length != 0 && checkEmail) {
-      console.log(checkEmail);
       throw new Error('You already have an account, please log in!');
     }
 
