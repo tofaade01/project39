@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBlast } from '../redux/blastStore'; // Import the createBlast action
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ function BlastForm() {
   const dispatch = useDispatch();
 
   // Accessing loading and error state from Redux
-  const { loading, error } = useSelector((state) => state.blast);
+  const { loading, error, success } = useSelector((state) => state.blast);
 
   // Handle checkbox changes for channels
   const handleChannelChange = (e) => {
@@ -47,16 +47,19 @@ function BlastForm() {
     };
 
     // Dispatch the createBlast action
-    dispatch(createBlast(payload))
-      .then(() => {
-        toast.success('Blast created successfully!', {
-          onClose: () => navigate('/'),
-        });
-      })
-      .catch(() => {
-        toast.error('Failed to create blast.');
-      });
+    dispatch(createBlast(payload));
   };
+
+  // Use effect to handle success and error notifications
+  useEffect(() => {
+    if (success) {
+      toast.success('Blast created successfully!', {
+        onClose: () => navigate('/'), // Navigate only after success
+      });
+    } else if (error) {
+      toast.error(error); // Show error toast
+    }
+  }, [success, error, navigate]);
 
   return (
     <div>

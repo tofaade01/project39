@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthService from '../services/auth-service';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import images from '../images/login.svg';
 const Register = () => {
   const [loading, setLoading] = useState(false); // Track loading state
   const navigate = useNavigate();
@@ -50,117 +51,126 @@ const Register = () => {
   });
 
   return (
-    <section className="text-center text-lg-start">
-      <div className="container pt-4" style={{ maxWidth: '1050px' }}>
-        <div className="row g-0 align-items-center">
-          <div className="col-lg-6 mb-5 mb-lg-0 p-0">
-            <img
-              src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
+    <section
+      className="container-fluid register-page"
+      style={{ backgroundColor: '#f9f9f9', height: '100vh' }}
+    >
+      <div className="row g-0 d-flex align-items-center h-100">
+        <div className="col-md-6 left-side text-align-center">
+          <img
+            src={images} // Use the phone image as in the screenshot
+            alt="phone illustration"
+            className="img-fluid"
+            style={{ maxWidth: '700px' }}
+          />
+        </div>
+        <div className="col-md-6 right-side">
+          <h2
+            className="mb-4"
+            style={{
+              fontWeight: 'bold',
+              color: '#f63f64',
+              fontSize: '24px',
+            }}
+          >
+            Boost Your Social Life,
+            <h2
+              className="mb-4"
               style={{
-                width: '485px',
-                borderRadius: '25px',
-                padding: '10px',
-                boxShadow: '5px 10px 5px lightblue',
-                height: '505px',
-              }}
-              alt=""
-            />
-          </div>
-          <div className="col-lg-6 mb-5 mb-lg-0 p-0">
-            <div
-              className="card cascading-right bg-body-tertiary"
-              style={{
-                backdropFilter: 'blur(30px)',
-                marginRight: '-39px',
-                borderRadius: '15px',
-                padding: '10px',
-                boxShadow: '10px 5px 5px black',
+                fontWeight: 'bold',
+                color: '#f63f64',
+                fontSize: '24px',
               }}
             >
-              <div className="card-body p-3 shadow-5 text-center">
-                <h2 className="fw-bold mb-5">Daftar sekarang</h2>
-                <form onSubmit={formik.handleSubmit}>
-                  <div className="row">
-                    <div className="col-md-12 mb-4">
-                      <div className="form-outline">
-                        <label
-                          className="form-label d-flex justify-content-flex-start"
-                          htmlFor="username"
-                        >
-                          Username
-                        </label>
-                        <input
-                          name="name"
-                          type="text"
-                          className="form-control"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.name}
-                        />
-                        {formik.touched.name && formik.errors.name ? (
-                          <div className="error-feedback">
-                            {formik.errors.name}
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="form-outline mb-4">
-                    <label
-                      className="form-label d-flex justify-content-flex-start"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      name="email"
-                      type="email"
-                      className="form-control"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.email}
-                    />
-                    {formik.touched.email && formik.errors.email ? (
-                      <div className="error-feedback">
-                        {formik.errors.email}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="form-outline mb-4">
-                    <label
-                      className="form-label d-flex justify-content-flex-start"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      name="password"
-                      type="password"
-                      className="form-control"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.password}
-                    />
-                    {formik.touched.password && formik.errors.password ? (
-                      <div className="error-feedback">
-                        {formik.errors.password}
-                      </div>
-                    ) : null}
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-block mb-4"
-                    disabled={loading}
+              blast it anywhere in one-click away!
+            </h2>
+          </h2>
+          <p className="lead" style={{ fontSize: '14px', color: '#f63f64' }}>
+            Sign up now, blast your content in one click!
+          </p>
+          <form onSubmit={formik.handleSubmit}>
+            <div className="row">
+              <div className="col-md-12 mb-4">
+                <div className="form-outline col-9">
+                  <label
+                    className="form-label d-flex justify-content-flex-start"
+                    htmlFor="username"
                   >
-                    {loading ? 'Registering...' : 'Sign Up'}
-                  </button>
-                  <p className="small fw-bold mt-2 pt-1 mb-0">
-                    Already have an account? <a href="/login">Login here</a>
-                  </p>
-                </form>
+                    Username
+                  </label>
+                  <input
+                    name="name"
+                    type="text"
+                    className="form-control"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.name}
+                  />
+                  {formik.touched.name && formik.errors.name ? (
+                    <div
+                      className="error-feedback"
+                      style={{
+                        color: 'red',
+                        fontSize: '0.9rem',
+                        marginTop: '5px',
+                      }}
+                    >
+                      {formik.errors.name}
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
-          </div>
+            <div className="form-outline col-9 mb-4">
+              <label
+                className="form-label d-flex justify-content-flex-start"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                name="email"
+                type="email"
+                className="form-control"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="error-feedback">{formik.errors.email}</div>
+              ) : null}
+            </div>
+            <div className="form-outline col-9 mb-4">
+              <label
+                className="form-label d-flex justify-content-flex-start"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                name="password"
+                type="password"
+                className="form-control"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error-feedback">{formik.errors.password}</div>
+              ) : null}
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg btn-block mb-4"
+              disabled={loading}
+              style={{ backgroundColor: '#f63f64' }}
+            >
+              {loading ? 'Registering...' : 'Sign Up'}
+            </button>
+            <p className="small fw-bold mt-2 pt-1 mb-0">
+              Already have an account? <a href="/login">Login here</a>
+            </p>
+          </form>
         </div>
       </div>
       <ToastContainer

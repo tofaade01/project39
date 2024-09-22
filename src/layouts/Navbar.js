@@ -1,28 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, users } from '../redux/authStore'; // Import logout action
+import { logout } from '../redux/authStore'; // Import logout action
 import './Navbar.css';
+import axios from 'axios';
 export default function Navbar({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.auth);
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [user, setUser] = useState(null); // State to hold user data
+  const [allUsers, setAllUsers] = useState([]);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/register'); // Make sure your API endpoint is correct
+      setAllUsers(response.data); // Store all users in state
+    } catch (err) {
+      console.error('Error fetching users:', err);
+    }
+  };
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen(!isUserDropdownOpen);
+  };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login'); // Redirect to login after logout
   };
   useEffect(() => {
-    dispatch(users());
-  }, [dispatch]);
+    fetchUsers(); // Fetch all users when component mounts
+  }, []);
+
+  useEffect(() => {
+    const emailUser = JSON.parse(localStorage.getItem('user')); // Get logged-in user email from localStorage
+    if (allUsers.length > 0 && emailUser) {
+      // Find the user based on the email from localStorage
+      const authUser = allUsers.find((u) => u.email === emailUser.email);
+      setUser(authUser); // Set the authenticated user
+    }
+  }, [allUsers]);
   // const emailuser = JSON.parse(localStorage.getItem('user'));
   // const authuser =
   //   user?.email && user?.email === emailuser?.email ? user : null;
@@ -91,15 +113,6 @@ export default function Navbar({ children }) {
               </Link>
             </div>
             <div
-              className={`list-group-item list-group-item-action py-2 ripple ${
-                location.pathname === '/user' ? 'active' : ''
-              }`}
-            >
-              <Link to="/user" className="nav-link">
-                <i className="fas fa-user fa-fw me-3"></i> User Profile
-              </Link>
-            </div>
-            <div
               className="list-group-item list-group-item-action py-2 ripple"
               style={{ marginTop: '200px' }}
             >
@@ -138,13 +151,40 @@ export default function Navbar({ children }) {
               ) : (
                 <>
                   <div className="user-profile mr-5">
-                    {/* <span></span> Show the user's name */}
+                    {/* Dropdown button that shows user.name */}
+                    <div className="dropdown d-inline-block mr-3">
+                      <button
+                        className="btn btn-light dropdown-toggle"
+                        type="button"
+                        onClick={toggleUserDropdown}
+                        aria-expanded={isUserDropdownOpen}
+                        style={{
+                          cursor: 'pointer',
+                          backgroundColor: '#ed1b2f',
+                        }}
+                        id="userDropdown"
+                      >
+                        {user && user.name}
+                      </button>
+
+                      {/* Dropdown menu with logout option */}
+                      {isUserDropdownOpen && (
+                        <ul
+                          className="dropdown-menu show"
+                          aria-labelledby="userDropdown"
+                        >
+                          <li>
+                            <button
+                              className="dropdown-item m-0"
+                              onClick={handleLogout}
+                            >
+                              Logout
+                            </button>
+                          </li>
+                        </ul>
+                      )}
+                    </div>
                   </div>
-                  <li className="list-group-item list-group-item-action py-2 ripple">
-                    <button className="btn btn-danger" onClick={handleLogout}>
-                      Logout
-                    </button>
-                  </li>
                 </>
               )}
             </div>

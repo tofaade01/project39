@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/authStore'; // Import the login action from Redux store
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import images from '../images/login.svg';
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,25 +31,16 @@ const Login = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      try {
-        // Dispatch the login action from Redux
-        dispatch(login({ email: values.email, password: values.password }));
-        setLoading(false);
-        toast.success('Login successful!');
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      } catch (err) {
-        setLoading(false);
-        toast.error(
-          err.message || 'Login failed. Please check your credentials.'
-        );
-      }
+      // Dispatch the login action from Redux
+      dispatch(login({ email: values.email, password: values.password }));
+      setLoading(false);
     },
   });
 
+  // Handle success and error notifications
   useEffect(() => {
     if (isAuthenticated) {
+      toast.success('Login successful!');
       // Delay navigation by 2 seconds (2000 ms)
       const timer = setTimeout(() => {
         navigate('/', { replace: true });
@@ -55,48 +48,78 @@ const Login = () => {
 
       // Cleanup the timer when the component unmounts
       return () => clearTimeout(timer);
+    } else if (error) {
+      toast.error(error);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, error, navigate]);
 
   return (
-    <section className="vh-70 mt-5" style={{ minWidth: '500px' }}>
-      <div className="container-fluid h-custom">
+    <section className="vh-70" style={{ minWidth: '500px' }}>
+      <div
+        className="container-fluid h-custom"
+        style={{ backgroundColor: '#f9f9f9', height: '100vh' }}
+      >
         <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col-md-9 col-lg-6 col-xl-5">
+          <div className="col-md-6 left-side text-align-center">
             <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+              src={images} // Use the phone image as in the screenshot
+              alt="phone illustration"
               className="img-fluid"
-              alt="Login illustration"
+              style={{ maxWidth: '700px' }}
             />
           </div>
-          <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <h1 className="mb-5">Login</h1>
+          <div className="col-md-6 right-side">
+            <h2
+              className="mb-4"
+              style={{
+                fontSize: '2.5rem',
+                fontWeight: 'bold',
+                color: '#f63f64',
+              }}
+            >
+              Welcome Back!
+            </h2>
+            <p
+              className="lead"
+              style={{ fontSize: '1.2rem', color: '#f63f64' }}
+            >
+              Login to manage your social media blasts.
+            </p>
             <form onSubmit={formik.handleSubmit}>
               {/* Email input */}
-              <div className="form-outline mb-4">
+              <div className="form-outline col-9 mb-4">
                 <label className="form-label" htmlFor="email">
                   Email
                 </label>
                 <input
                   type="text"
                   id="email"
-                  className="form-control form-control-lg"
+                  className="form-control form-control-md"
                   {...formik.getFieldProps('email')}
                 />
                 {formik.touched.email && formik.errors.email ? (
-                  <div className="error-feedback">{formik.errors.email}</div>
+                  <div
+                    className="error-feedback"
+                    style={{
+                      color: 'red',
+                      fontSize: '0.9rem',
+                      marginTop: '5px',
+                    }}
+                  >
+                    {formik.errors.email}
+                  </div>
                 ) : null}
               </div>
 
               {/* Password input */}
-              <div className="form-outline mb-3">
+              <div className="form-outline col-9 mb-3">
                 <label className="form-label" htmlFor="password">
                   Password
                 </label>
                 <input
                   type="password"
                   id="password"
-                  className="form-control form-control-lg"
+                  className="form-control form-control-md"
                   {...formik.getFieldProps('password')}
                 />
                 {formik.touched.password && formik.errors.password ? (
@@ -109,7 +132,11 @@ const Login = () => {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
+                  style={{
+                    paddingLeft: '2.5rem',
+                    paddingRight: '2.5rem',
+                    backgroundColor: '#f63f64',
+                  }}
                   disabled={loading} // Disable button during loading
                 >
                   {loading && (
@@ -121,11 +148,6 @@ const Login = () => {
                   Don't have an account? <a href="/register">Register here</a>
                 </p>
               </div>
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
             </form>
           </div>
         </div>

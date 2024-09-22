@@ -88,16 +88,22 @@ const initialState = {
 const blastSlice = createSlice({
   name: 'blast',
   initialState,
-  reducers: {},
+  reducers: {
+    resetSuccess: (state) => {
+      state.success = false;
+    },
+  },
   extraReducers: (builder) => {
     // createBlast
     builder
       .addCase(createBlast.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.success = false;
       })
       .addCase(createBlast.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         state.blasts.push(action.payload); // Add new blast to blasts array
       })
       .addCase(createBlast.rejected, (state, action) => {
@@ -109,10 +115,12 @@ const blastSlice = createSlice({
     builder
       .addCase(getAllBlasts.pending, (state) => {
         state.loading = true;
+        state.success = false;
         state.error = null;
       })
       .addCase(getAllBlasts.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         state.blasts = action.payload; // Set blasts data
       })
       .addCase(getAllBlasts.rejected, (state, action) => {
@@ -142,6 +150,7 @@ const blastSlice = createSlice({
       })
       .addCase(blastNow.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         state.blasts = action.payload; // Set blasts data
       })
       .addCase(blastNow.rejected, (state, action) => {
@@ -156,6 +165,7 @@ const blastSlice = createSlice({
       })
       .addCase(editBlast.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         state.blasts = action.payload;
       })
       .addCase(editBlast.rejected, (state, action) => {
@@ -170,6 +180,7 @@ const blastSlice = createSlice({
       })
       .addCase(deleteBlast.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         state.blasts = action.payload; // Set blasts data
       })
       .addCase(deleteBlast.rejected, (state, action) => {
