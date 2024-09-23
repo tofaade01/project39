@@ -60,30 +60,49 @@ const Register = () => {
           alt="OCA Logo"
           className="img-fluid"
           style={{
-            width: '100px', 
+            width: '100px',
             height: 'auto',
           }}
         />
       </div>
-      <div className="row g-0 d-flex align-items-center h-100">
-        <div className="col-md-6 right-side" style={{ paddingLeft: '51px' }}>
+      <div className="row g-0 d-flex align-items-center h-100 mt-5">
+        <div
+          className="col-md-6 right-side mt-4"
+          style={{ paddingLeft: '51px' }}
+        >
           <div style={{ marginBottom: '20px' }}>
             <img
               src={imagesOca}
               alt="OCA Logo"
               className="img-fluid"
               style={{
-                width: 'auto',
+                width: '250px',
                 maxWidth: '100%',
                 height: 'auto',
                 display: 'block',
               }}
             />
           </div>
-          <h2 className="mb-2" style={{ fontWeight: 'bold', color: '#BA0E44', fontSize: '26px', marginTop: '0' }}>
+          <h2
+            className="mb-2"
+            style={{
+              fontWeight: 'bold',
+              color: '#BA0E44',
+              fontSize: '26px',
+              marginTop: '0',
+            }}
+          >
             Boost Your Social Life,
           </h2>
-          <h2 className="mb-2" style={{ fontWeight: 'bold', color: '#BA0E44', fontSize: '26px', marginTop: '0' }}>
+          <h2
+            className="mb-2"
+            style={{
+              fontWeight: 'bold',
+              color: '#BA0E44',
+              fontSize: '26px',
+              marginTop: '0',
+            }}
+          >
             blast it anywhere in one-click away!
           </h2>
           <p className="lead" style={{ fontSize: '14px', color: '#BA0E44' }}>
@@ -91,7 +110,7 @@ const Register = () => {
           </p>
           <form onSubmit={formik.handleSubmit}>
             <div className="row">
-              <div className="col-md-12 mb-4">
+              <div className="col-md-12 mb-2">
                 <div className="form-outline col-9">
                   <label className="form-label" htmlFor="username">
                     Username
@@ -105,14 +124,21 @@ const Register = () => {
                     value={formik.values.name}
                   />
                   {formik.touched.name && formik.errors.name ? (
-                    <div className="error-feedback" style={{ color: 'red', fontSize: '0.9rem', marginTop: '5px' }}>
+                    <div
+                      className="error-feedback"
+                      style={{
+                        color: 'red',
+                        fontSize: '0.9rem',
+                        marginTop: '5px',
+                      }}
+                    >
                       {formik.errors.name}
                     </div>
                   ) : null}
                 </div>
               </div>
             </div>
-            <div className="form-outline col-9 mb-4">
+            <div className="form-outline col-9 mb-2">
               <label className="form-label" htmlFor="email">
                 Email
               </label>
@@ -128,7 +154,7 @@ const Register = () => {
                 <div className="error-feedback">{formik.errors.email}</div>
               ) : null}
             </div>
-            <div className="form-outline col-9 mb-4">
+            <div className="form-outline col-9 mb-2">
               <label className="form-label" htmlFor="password">
                 Password
               </label>
@@ -146,7 +172,7 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className="btn btn-primary btn-lg btn-block mb-4"
+              className="btn btn-primary btn-md btn-block mb-2"
               disabled={loading}
               style={{ backgroundColor: '#BA0E44' }}
             >

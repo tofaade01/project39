@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createBlast } from '../redux/blastStore'; // Import the createBlast action
+import { createBlast, resetSuccess } from '../redux/blastStore'; // Import the createBlast action
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../layouts/Navbar';
 import './Blastform.css';
@@ -52,14 +52,17 @@ function BlastForm() {
 
   // Use effect to handle success and error notifications
   useEffect(() => {
-    if (success) {
+    if (success === true) {
       toast.success('Blast created successfully!', {
-        onClose: () => navigate('/'), // Navigate only after success
+        onClose: () => {
+          dispatch(resetSuccess());
+          navigate('/');
+        }, // Navigate only after success
       });
     } else if (error) {
       toast.error(error); // Show error toast
     }
-  }, [success, error, navigate]);
+  }, [success, error, dispatch, navigate]);
 
   return (
     <div>

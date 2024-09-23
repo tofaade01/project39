@@ -184,19 +184,21 @@ function BlastImage() {
         {editModalOpen && (
           <div className="modal">
             <div className="modal-content">
-              <h3>Edit Blast</h3>
+              <h3 style={{ color: 'black' }}>Edit Blast</h3>
               <label>Title:</label>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleFormChange}
+                className="form-control"
               />
               <label>Caption:</label>
               <textarea
                 name="caption"
                 value={formData.caption}
                 onChange={handleFormChange}
+                className="form-control"
               />
               <label>Channel:</label>
               <input
@@ -204,6 +206,7 @@ function BlastImage() {
                 name="channel"
                 value={formData.channel}
                 onChange={handleFormChange}
+                className="form-control"
               />
               <label>Date:</label>
               <input
@@ -211,6 +214,7 @@ function BlastImage() {
                 name="date"
                 value={formData.date.split('T')[0]} // Convert to YYYY-MM-DD format
                 onChange={handleFormChange}
+                className="form-control"
               />
               <label>Total Broadcast:</label>
               <input
@@ -219,9 +223,26 @@ function BlastImage() {
                 value={formData.totalBroadcast}
                 onChange={handleFormChange}
                 min="1"
+                className="form-control"
               />
-              <button onClick={handleEditSubmit}>Save Changes</button>
-              <button onClick={() => setEditModalOpen(false)}>Cancel</button>
+              <div
+                className="row d-flex flex-nowrap w-50 mt-3"
+                style={{ marginLeft: '0.01rem' }}
+              >
+                <button
+                  className="btn btn-sm btn-primary"
+                  onClick={handleEditSubmit}
+                  style={{ marginRight: '0.5rem' }}
+                >
+                  Save Changes
+                </button>
+                <button
+                  className="btn btn-sm btn-secondary"
+                  onClick={() => setEditModalOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -231,8 +252,24 @@ function BlastImage() {
           <div className="modal">
             <div className="modal-content">
               <h3>Are you sure you want to delete this blast?</h3>
-              <button onClick={handleDeleteSubmit}>Yes, Delete</button>
-              <button onClick={() => setDeleteModalOpen(false)}>Cancel</button>
+              <div
+                className="row d-flex flex-nowrap w-50 mt-5"
+                style={{ marginLeft: '0.01rem' }}
+              >
+                <button
+                  className="btn btn-lg btn-danger"
+                  style={{ marginRight: '0.5rem' }}
+                  onClick={handleDeleteSubmit}
+                >
+                  Delete
+                </button>
+                <button
+                  className="btn btn-lg btn-secondary"
+                  onClick={() => setDeleteModalOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         )}

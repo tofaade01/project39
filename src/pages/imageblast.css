@@ -1,4 +1,3 @@
-/* UpcomingBlast.css */
 .upcoming-blast-container {
   padding: 20px;
 }
@@ -116,15 +115,39 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 1000; /* Make sure it's on top of other content */
 }
 
 .modal-content {
-  background-color: rgb(240, 142, 202);
+  background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 400px; /* Adjust the width as needed */
+  width: 600px; /* Adjust the width as needed */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.modal-content label {
+  color: black;
+  font-weight: bold;
+}
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
 }
 
 button {

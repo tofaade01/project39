@@ -115,12 +115,10 @@ const blastSlice = createSlice({
     builder
       .addCase(getAllBlasts.pending, (state) => {
         state.loading = true;
-        state.success = false;
         state.error = null;
       })
       .addCase(getAllBlasts.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
         state.blasts = action.payload; // Set blasts data
       })
       .addCase(getAllBlasts.rejected, (state, action) => {
@@ -190,4 +188,5 @@ const blastSlice = createSlice({
   },
 });
 
+export const { resetSuccess } = blastSlice.actions;
 export default blastSlice.reducer;

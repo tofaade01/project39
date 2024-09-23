@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBroadcastHistory } from '../redux/blastStore'; 
+import { getBroadcastHistory } from '../redux/blastStore';
 import Navbar from '../layouts/Navbar';
-import './History.css'; 
+import './History.css';
 import { format } from 'date-fns';
 import frame2 from '../images/Frame2.svg';
 import Pagination from '../layouts/Pagination';
 
 function History() {
   const dispatch = useDispatch();
-  const { history, loading, error } = useSelector((state) => state.blast); 
-  const [currentPage, setCurrentPage] = useState(1); 
+  const { history, loading, error } = useSelector((state) => state.blast);
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
 
   useEffect(() => {
@@ -29,57 +29,176 @@ function History() {
     <Navbar>
       <div className="history-page">
         <div className="header-section">
-        <div style={{ marginTop: '10px' }}>
-          <h1 style={{ color: '#BA0E44', textAlign: 'left', fontSize: '26px', fontWeight: 'bold' }}>
-            Let's take a look
-          </h1>
-          <h1 style={{ color: '#BA0E44', textAlign: 'left', fontSize: '26px', fontWeight: 'bold' }}>
-            on your journey
-          </h1>
-        </div>
+          <div style={{ marginTop: '10px' }}>
+            <h1
+              style={{
+                color: '#BA0E44',
+                textAlign: 'left',
+                fontSize: '26px',
+                fontWeight: 'bold',
+              }}
+            >
+              Let's take a look
+            </h1>
+            <h1
+              style={{
+                color: '#BA0E44',
+                textAlign: 'left',
+                fontSize: '26px',
+                fontWeight: 'bold',
+              }}
+            >
+              on your journey
+            </h1>
+          </div>
           <img
-            src={frame2} 
+            src={frame2}
             alt="Journey Illustration"
             className="journey-illustration"
           />
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <p>Loading data...</p>
         ) : (
           <div className="table-section">
-            <h2 style={{ color: '#BA0E44', textAlign: 'left', fontSize: '26px', fontWeight: 'bold' }}>History Broadcast Activities</h2>
+            <h2
+              style={{
+                color: '#BA0E44',
+                textAlign: 'left',
+                fontSize: '26px',
+                fontWeight: 'bold',
+              }}
+            >
+              History Broadcast Activities
+            </h2>
             {error ? (
               <p className="error-message">{error}</p>
             ) : (
               <table className="broadcast-table">
                 <thead>
                   <tr>
-                    <th style={{ color: '#42526E', textAlign: 'left', fontSize: '12px', fontWeight: 'bold' }}>Campaign Name</th>
-                    <th style={{ color: '#42526E', textAlign: 'left', fontSize: '12px', fontWeight: 'bold' }}>Media</th>
-                    <th style={{ color: '#42526E', textAlign: 'left', fontSize: '12px', fontWeight: 'bold' }}>Channel</th>
-                    <th style={{ color: '#42526E', textAlign: 'left', fontSize: '12px', fontWeight: 'bold' }}>Created Date</th>
-                    <th style={{ color: '#42526E', textAlign: 'left', fontSize: '12px', fontWeight: 'bold' }}>Broadcast Date</th>
-                    <th style={{ color: '#42526E', textAlign: 'left', fontSize: '12px', fontWeight: 'bold' }}>Status</th>
+                    <th
+                      style={{
+                        color: '#42526E',
+                        textAlign: 'left',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Campaign Name
+                    </th>
+                    <th
+                      style={{
+                        color: '#42526E',
+                        textAlign: 'left',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Media
+                    </th>
+                    <th
+                      style={{
+                        color: '#42526E',
+                        textAlign: 'left',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Channel
+                    </th>
+                    <th
+                      style={{
+                        color: '#42526E',
+                        textAlign: 'left',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Created Date
+                    </th>
+                    <th
+                      style={{
+                        color: '#42526E',
+                        textAlign: 'left',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Broadcast Date
+                    </th>
+                    <th
+                      style={{
+                        color: '#42526E',
+                        textAlign: 'left',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {Array.isArray(currentItems) ? (
                     currentItems.map((blast) => (
                       <tr key={blast._id}>
-                        <td style={{ color: '#A7A9AC', textAlign: 'left', fontSize: '12px' }}>{blast.title}</td>
-                        <td style={{ color: '#A7A9AC', textAlign: 'left', fontSize: '12px' }}>{blast.media}</td>
-                        <td style={{ color: '#A7A9AC', textAlign: 'left', fontSize: '12px' }}>
+                        <td
+                          style={{
+                            color: '#A7A9AC',
+                            textAlign: 'left',
+                            fontSize: '12px',
+                          }}
+                        >
+                          {blast.title}
+                        </td>
+                        <td
+                          style={{
+                            color: '#A7A9AC',
+                            textAlign: 'left',
+                            fontSize: '12px',
+                          }}
+                        >
+                          {blast.media}
+                        </td>
+                        <td
+                          style={{
+                            color: '#A7A9AC',
+                            textAlign: 'left',
+                            fontSize: '12px',
+                          }}
+                        >
                           {Array.isArray(blast.channel)
                             ? blast.channel.join(', ')
                             : blast.channel}
                         </td>
-                        <td style={{ color: '#A7A9AC', textAlign: 'left', fontSize: '12px' }}> 
+                        <td
+                          style={{
+                            color: '#A7A9AC',
+                            textAlign: 'left',
+                            fontSize: '12px',
+                          }}
+                        >
                           {new Date(blast.createdDate).toLocaleDateString()}
                         </td>
-                        <td style={{ color: '#A7A9AC', textAlign: 'left', fontSize: '12px' }}>
+                        <td
+                          style={{
+                            color: '#A7A9AC',
+                            textAlign: 'left',
+                            fontSize: '12px',
+                          }}
+                        >
                           {format(new Date(blast.date), 'yyyy-MM-dd HH:mm')}
                         </td>
-                        <td style={{ color: '#A7A9AC', textAlign: 'left', fontSize: '12px' }}>{blast.status}</td>
+                        <td
+                          style={{
+                            color: '#A7A9AC',
+                            textAlign: 'left',
+                            fontSize: '12px',
+                          }}
+                        >
+                          {blast.status}
+                        </td>
                       </tr>
                     ))
                   ) : (
