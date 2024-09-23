@@ -16,12 +16,12 @@
 .right-side h2 {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #f63f64;
+  color: #BA0E44;
 }
 
 .right-side .lead {
   font-size: 1.2rem;
-  color: #f63f64;
+  color: #BA0E44;
 }
 
 .register-form .form-control,
@@ -36,5 +36,5 @@
   margin-top: 5px;
 }
 .btn {
-  background-color: #f63f64;
+  background-color: #BA0E44;
 }

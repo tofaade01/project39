@@ -6,8 +6,10 @@ import AuthService from '../services/auth-service';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import images from '../images/login.svg';
+import imagesOca from '../images/OCA.svg';
+
 const Register = () => {
-  const [loading, setLoading] = useState(false); // Track loading state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -38,11 +40,8 @@ const Register = () => {
           email: values.email,
           password: values.password,
         });
-        // On success, navigate to login page
         toast.success('Registration successful! Redirecting to login...');
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        setTimeout(() => navigate('/login'), 2000);
       } catch (error) {
         toast.error(error.message || 'An error occurred during registration.');
         setLoading(false);
@@ -55,47 +54,46 @@ const Register = () => {
       className="container-fluid register-page"
       style={{ backgroundColor: '#f9f9f9', height: '100vh' }}
     >
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <img
+          src={imagesOca}
+          alt="OCA Logo"
+          className="img-fluid"
+          style={{
+            width: '100px', 
+            height: 'auto',
+          }}
+        />
+      </div>
       <div className="row g-0 d-flex align-items-center h-100">
-        <div className="col-md-6 left-side text-align-center">
-          <img
-            src={images} // Use the phone image as in the screenshot
-            alt="phone illustration"
-            className="img-fluid"
-            style={{ maxWidth: '700px' }}
-          />
-        </div>
-        <div className="col-md-6 right-side">
-          <h2
-            className="mb-4"
-            style={{
-              fontWeight: 'bold',
-              color: '#f63f64',
-              fontSize: '24px',
-            }}
-          >
-            Boost Your Social Life,
-            <h2
-              className="mb-4"
+        <div className="col-md-6 right-side" style={{ paddingLeft: '51px' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <img
+              src={imagesOca}
+              alt="OCA Logo"
+              className="img-fluid"
               style={{
-                fontWeight: 'bold',
-                color: '#f63f64',
-                fontSize: '24px',
+                width: 'auto',
+                maxWidth: '100%',
+                height: 'auto',
+                display: 'block',
               }}
-            >
-              blast it anywhere in one-click away!
-            </h2>
+            />
+          </div>
+          <h2 className="mb-2" style={{ fontWeight: 'bold', color: '#BA0E44', fontSize: '26px', marginTop: '0' }}>
+            Boost Your Social Life,
           </h2>
-          <p className="lead" style={{ fontSize: '14px', color: '#f63f64' }}>
+          <h2 className="mb-2" style={{ fontWeight: 'bold', color: '#BA0E44', fontSize: '26px', marginTop: '0' }}>
+            blast it anywhere in one-click away!
+          </h2>
+          <p className="lead" style={{ fontSize: '14px', color: '#BA0E44' }}>
             Sign up now, blast your content in one click!
           </p>
           <form onSubmit={formik.handleSubmit}>
             <div className="row">
               <div className="col-md-12 mb-4">
                 <div className="form-outline col-9">
-                  <label
-                    className="form-label d-flex justify-content-flex-start"
-                    htmlFor="username"
-                  >
+                  <label className="form-label" htmlFor="username">
                     Username
                   </label>
                   <input
@@ -107,14 +105,7 @@ const Register = () => {
                     value={formik.values.name}
                   />
                   {formik.touched.name && formik.errors.name ? (
-                    <div
-                      className="error-feedback"
-                      style={{
-                        color: 'red',
-                        fontSize: '0.9rem',
-                        marginTop: '5px',
-                      }}
-                    >
+                    <div className="error-feedback" style={{ color: 'red', fontSize: '0.9rem', marginTop: '5px' }}>
                       {formik.errors.name}
                     </div>
                   ) : null}
@@ -122,10 +113,7 @@ const Register = () => {
               </div>
             </div>
             <div className="form-outline col-9 mb-4">
-              <label
-                className="form-label d-flex justify-content-flex-start"
-                htmlFor="email"
-              >
+              <label className="form-label" htmlFor="email">
                 Email
               </label>
               <input
@@ -141,10 +129,7 @@ const Register = () => {
               ) : null}
             </div>
             <div className="form-outline col-9 mb-4">
-              <label
-                className="form-label d-flex justify-content-flex-start"
-                htmlFor="password"
-              >
+              <label className="form-label" htmlFor="password">
                 Password
               </label>
               <input
@@ -163,7 +148,7 @@ const Register = () => {
               type="submit"
               className="btn btn-primary btn-lg btn-block mb-4"
               disabled={loading}
-              style={{ backgroundColor: '#f63f64' }}
+              style={{ backgroundColor: '#BA0E44' }}
             >
               {loading ? 'Registering...' : 'Sign Up'}
             </button>
@@ -171,6 +156,14 @@ const Register = () => {
               Already have an account? <a href="/login">Login here</a>
             </p>
           </form>
+        </div>
+        <div className="col-md-6 left-side text-align-center">
+          <img
+            src={images}
+            alt="phone illustration"
+            className="img-fluid"
+            style={{ maxWidth: '700px' }}
+          />
         </div>
       </div>
       <ToastContainer
