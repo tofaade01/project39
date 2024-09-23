@@ -70,6 +70,8 @@ export default function Navbar({ children }) {
                 <i className="fas fa-home fa-fw me-3"></i> Home
               </Link>
             </div>
+
+            {/* Upcoming Blast Dropdown */}
             <div className="list-group-item nav-item dropdown">
               <div
                 className={`nav-link dropdown-toggle ${
@@ -103,6 +105,8 @@ export default function Navbar({ children }) {
                 </li>
               </ul>
             </div>
+
+            {/* History */}
             <div
               className={`list-group-item list-group-item-action py-2 ripple ${
                 location.pathname === '/history' ? 'active' : ''
@@ -112,6 +116,8 @@ export default function Navbar({ children }) {
                 <i className="fas fa-history fa-fw me-3"></i> History
               </Link>
             </div>
+
+            {/* Create New Button */}
             <div
               className="list-group-item list-group-item-action py-2 ripple"
               style={{ marginTop: '200px' }}
@@ -192,7 +198,12 @@ export default function Navbar({ children }) {
         </nav>
 
         {/* Main content area */}
-        <main className="main-content p-4" style={{ marginTop: '58px' }}>
+        <main
+          className={`main-content ${
+            isSidebarExpanded ? 'expanded-content' : 'collapsed-content'
+          } p-4 `}
+          style={{ marginTop: '58px' }}
+        >
           {children}
         </main>
       </div>
